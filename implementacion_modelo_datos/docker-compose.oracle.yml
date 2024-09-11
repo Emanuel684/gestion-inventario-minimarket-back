@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe
+    environment:
+      - ORACLE_DATABASE=IAEA
+      - ORACLE_PASSWORD=iaea_123
+    ports:
+      - 1522:1521
+    volumes:
+      - ~/apps/oracle:/u01/app/oracle/oradata
