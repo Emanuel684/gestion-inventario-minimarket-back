@@ -6,11 +6,11 @@ class Settings:
     configuraciones de la aplicación."""
 
     usuario = "usrapp"
-    password = "6rByojlDJYLx5M3R"
+    password = "DFpa4iYlArwRXpI0"
     cluster = "clusterreactores.u82m331.mongodb.net"
     database_connection_str = (
         f"mongodb+srv://{usuario}:{password}@{cluster}"
-        f"/?retryWrites=true&w=majority&appName=ClusterReactores"
+        f"/?retryWrites=true&w=majority&appName=ClusterReactores&authMechanism=SCRAM-SHA-1"
     )
 
     class Config:

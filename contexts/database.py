@@ -3,6 +3,7 @@
 # External libraries
 from functools import lru_cache
 
+import certifi
 from pymongo import MongoClient
 
 from properties.settings import Settings
@@ -17,7 +18,8 @@ def crear_mongo_conexion() -> MongoClient:
     """
     setting = Settings()
 
-    client = MongoClient(setting.database_connection_str)
+    # client = MongoClient(setting.database_connection_str)
+    client = MongoClient(setting.database_connection_str, tlsCAFile=certifi.where())
     return client
 
 
