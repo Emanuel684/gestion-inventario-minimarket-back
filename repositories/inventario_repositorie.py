@@ -9,8 +9,8 @@ from pymongo import ReturnDocument
 from sqlmodel import Session
 
 
-class ReactorRepository(ABC):
-    """Repositorio correspondiente a las Ubicaciones de los reactores."""
+class InventarioRepository(ABC):
+    """Repositorio correspondiente al manejo del inventario en la aplicación"""
 
     def __init__(self, session: Session) -> None:
         """Crea una nueva instancia del repositorio y la conexion de Mongo.

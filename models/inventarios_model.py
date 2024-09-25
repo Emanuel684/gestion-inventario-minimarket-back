@@ -13,7 +13,7 @@ from models.base_model import RespuestaEstandar
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
-class ReactorModel(BaseModel):
+class InventarioModel(BaseModel):
 
     id: Optional[PyObjectId] = Field(alias='_id', default=None)
     """Contiene la información generada por los endpoints."""
@@ -57,7 +57,7 @@ class ReactorModel(BaseModel):
     )
 
 
-class UpdateReactorModel(BaseModel):
+class UpdateInventarioModel(BaseModel):
 
     nombre_reactor: str | int = None
     """Contiene la información generada por los endpoints."""
@@ -88,11 +88,11 @@ class UpdateReactorModel(BaseModel):
 
 class ReactoresCollection(RespuestaEstandar):
 
-    data: List[ReactorModel] | None = None
+    data: List[InventarioModel] | None = None
     """Contiene la información generada por los endpoints."""
 
 
 class ReactorCollection(RespuestaEstandar):
 
-    data: ReactorModel = {}
+    data: InventarioModel = {}
     """Contiene la información generada por los endpoints."""

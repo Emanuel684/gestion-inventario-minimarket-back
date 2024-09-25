@@ -9,7 +9,7 @@ from repositories.reactor_repositorie import ReactorRepository
 from services.base_service import ServiceBase
 
 
-class ReactorService(ServiceBase):
+class ProductoService(ServiceBase):
     def __init__(self, cursor: Callable[[], Session]) -> None:
         """Crea una nueva instancia del servicio de reactores
 

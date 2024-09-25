@@ -9,7 +9,7 @@ from pymongo import ReturnDocument
 from sqlmodel import Session
 
 
-class ReactorRepository(ABC):
+class PedidoRepository(ABC):
     """Repositorio correspondiente a las Ubicaciones de los reactores."""
 
     def __init__(self, session: Session) -> None:
