@@ -3,17 +3,19 @@
 # External libraries
 import traceback
 
-from fastapi import APIRouter, Response, HTTPException, status
+from fastapi import APIRouter, HTTPException, Response, status
 
 # Own libraries
-from contexts.database import crear_mongo_conexion, crear_cursor_mongo
-from services.reactor_service import ReactorService
+from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
+from services.reactor_service import ReactorService
 
-eliminar_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
+eliminar_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
 
-@eliminar_reactor_controller.delete('/eliminar-reactor/{identificador}', status_code=200)
+@eliminar_reactor_controller.delete(
+    "/eliminar-reactor/{identificador}", status_code=200
+)
 def elimina_reactor(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
@@ -36,7 +38,7 @@ def elimina_reactor(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        data = 'Reactor no eliminado correctamente'
+        data = "Reactor no eliminado correctamente"
         with ReactorService(cursor=cursor) as reactor_service:
             delete_result = reactor_service.reactores_repository.delete(identificador)
 
@@ -47,7 +49,7 @@ def elimina_reactor(response: Response, identificador: str):
         log.error(traceback.format_exc())
 
         data = None
-        message = 'Error al obtener el resultado'
+        message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
@@ -55,6 +57,6 @@ def elimina_reactor(response: Response, identificador: str):
             return Response(status_code=status.HTTP_204_NO_CONTENT)
 
         response.status_code = status_code
-        res = {'success': success, 'msg': message, 'data': data}
+        res = {"success": success, "msg": message, "data": data}
 
     return res

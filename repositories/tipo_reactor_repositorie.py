@@ -3,6 +3,7 @@
 
 # External libraries
 from abc import ABC
+
 from bson import ObjectId
 from sqlmodel import Session
 
@@ -54,9 +55,9 @@ class TipoReactorRepository(ABC):
 
         """
         res_tipo_reac = self._session.tipos_reactores.find_one(
-            {'_id': ObjectId(identificador)}
+            {"_id": ObjectId(identificador)}
         )
-        respuesta = self._session.reactores.find({'tipo': res_tipo_reac['tipo']})
+        respuesta = self._session.reactores.find({"tipo": res_tipo_reac["tipo"]})
 
         return respuesta
 

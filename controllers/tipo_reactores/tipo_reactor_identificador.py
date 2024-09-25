@@ -7,18 +7,18 @@ import traceback
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from contexts.database import crear_cursor_mongo, crear_mongo_conexion
+from helpers.config import get_log
 from models.reactores_model import ReactoresCollection
 from services.tipo_reactor_service import TipoReactorService
-from helpers.config import get_log
 
 tipo_reactor_identificador_controller = APIRouter(
-    prefix='/tipo-reactores', tags=['tipo_reactores']
+    prefix="/tipo-reactores", tags=["tipo_reactores"]
 )
 
 
 @tipo_reactor_identificador_controller.get(
-    '/tipo-reactores-identificador/{identificador}',
+    "/tipo-reactores-identificador/{identificador}",
     status_code=200,
     response_model=ReactoresCollection,
     response_model_by_alias=False,
@@ -76,14 +76,14 @@ def tipo_reactores_identificador(response: Response, identificador: str):
 
         with TipoReactorService(cursor=cursor) as tipo_reactor_service:
             data = tipo_reactor_service.tipo_reactor_repository.get_by_id(identificador)
-        message = 'Se obtuvo el resultado exitosamente.'
+        message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
         data = None
-        message = 'Error al obtener el resultado'
+        message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:

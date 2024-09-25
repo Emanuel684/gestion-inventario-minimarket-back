@@ -11,11 +11,11 @@ from models.reactores_model import ReactorModel, ReactorCollection
 from services.reactor_service import ReactorService
 from helpers.config import get_log
 
-crear_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
+crear_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
 
 @crear_reactor_controller.post(
-    '/crear-reactor',
+    "/crear-reactor",
     status_code=status.HTTP_201_CREATED,
     response_model=ReactorCollection,
 )
@@ -61,14 +61,14 @@ def crear_reactor(response: Response, reactor: ReactorModel):
         with ReactorService(cursor=cursor) as reactor_service:
             data = reactor_service.reactores_repository.add(reactor)
 
-        message = 'Se obtuvo el resultado exitosamente.'
+        message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
         data = None
-        message = 'Error al obtener el resultado'
+        message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:

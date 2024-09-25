@@ -3,6 +3,7 @@
 
 # External libraries
 from abc import ABC
+
 from bson import ObjectId
 from sqlmodel import Session
 
@@ -36,7 +37,7 @@ class UbicacionRepository(ABC):
                 }
 
         """
-        respuesta = self._session.ubicaciones.find_one({'_id': ObjectId(identificador)})
+        respuesta = self._session.ubicaciones.find_one({"_id": ObjectId(identificador)})
 
         return respuesta
 
@@ -104,8 +105,8 @@ class UbicacionRepository(ABC):
         res_ubicaciones_id = self.get_by_id(identificador)
         respuesta = self._session.reactores.find(
             {
-                'pais': res_ubicaciones_id['nombre_pais'],
-                'ciudad': res_ubicaciones_id['nombre_ciudad'],
+                "pais": res_ubicaciones_id["nombre_pais"],
+                "ciudad": res_ubicaciones_id["nombre_ciudad"],
             }
         )
 

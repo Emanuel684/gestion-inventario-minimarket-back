@@ -1,9 +1,11 @@
 """Modulo con las funciones de conexion y ejecucion de sql a la base de datos."""
 
 # External libraries
-from properties.settings import Settings
 from functools import lru_cache
+
 from pymongo import MongoClient
+
+from properties.settings import Settings
 
 
 def crear_mongo_conexion() -> MongoClient:

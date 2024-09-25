@@ -7,18 +7,18 @@ import traceback
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from contexts.database import crear_cursor_mongo, crear_mongo_conexion
+from helpers.config import get_log
 from models.ubicaciones_model import UbicacionesCollection
 from services.ubicacion_service import UbicacionService
-from helpers.config import get_log
 
 reactores_registrados_ubicacion_controller = APIRouter(
-    prefix='/ubicaciones', tags=['ubicaciones']
+    prefix="/ubicaciones", tags=["ubicaciones"]
 )
 
 
 @reactores_registrados_ubicacion_controller.get(
-    '/reactores-registrados-ubicacion',
+    "/reactores-registrados-ubicacion",
     status_code=200,
     response_model=UbicacionesCollection,
     response_model_by_alias=False,
@@ -63,14 +63,14 @@ def reactores_registrados_ubicacion(response: Response):
 
         with UbicacionService(cursor=cursor) as ubicacion_service:
             data = ubicacion_service.ubicaciones_repository.get_list()
-        message = 'Se obtuvo el resultado exitosamente.'
+        message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
         data = None
-        message = f'Error al obtener el resultado {traceback.format_exc()}'
+        message = f"Error al obtener el resultado {traceback.format_exc()}"
         success = False
         status_code = 500
     finally:

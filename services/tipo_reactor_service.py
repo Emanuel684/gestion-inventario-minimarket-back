@@ -3,6 +3,7 @@
 
 # External libraries
 from typing import Callable
+
 from sqlmodel import Session
 
 # Own libraries

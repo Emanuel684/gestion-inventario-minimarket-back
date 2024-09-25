@@ -12,11 +12,11 @@ from models.reactores_model import ReactorCollection, UpdateReactorModel, Reacto
 from services.reactor_service import ReactorService
 from helpers.config import get_log
 
-actualizar_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
+actualizar_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
 
 @actualizar_reactor_controller.put(
-    '/actualizar-reactor/{identificador}',
+    "/actualizar-reactor/{identificador}",
     status_code=200,
     response_model=ReactorCollection,
     response_model_by_alias=False,
@@ -59,11 +59,13 @@ def actualizar_reactor(
         with ReactorService(cursor=cursor) as reactor_service:
             data = reactor_service.reactores_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.reactores_repository.update(identificador, reactor)
-                message = 'Se obtuvo el resultado exitosamente.'
+                data = reactor_service.reactores_repository.update(
+                    identificador, reactor
+                )
+                message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:
-                message = f'Reactor {identificador} no encontrado'
+                message = f"Reactor {identificador} no encontrado"
                 status_code = 404
                 data = ReactorModel()
                 success = False
@@ -72,7 +74,7 @@ def actualizar_reactor(
         log.error(traceback.format_exc())
 
         data = ReactorModel()
-        message = 'Error al obtener el resultado'
+        message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:

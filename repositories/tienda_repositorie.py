@@ -3,10 +3,12 @@
 
 # External libraries
 from abc import ABC
+
 from bson import ObjectId
-from models.reactores_model import ReactorModel
 from pymongo import ReturnDocument
 from sqlmodel import Session
+
+from models.reactores_model import ReactorModel
 
 
 class TiendaRepository(ABC):
@@ -43,7 +45,7 @@ class TiendaRepository(ABC):
                 }
 
         """
-        respuesta = self._session.reactores.find_one({'_id': ObjectId(identificador)})
+        respuesta = self._session.reactores.find_one({"_id": ObjectId(identificador)})
         return respuesta
 
     def get_list(self) -> list:
@@ -107,10 +109,10 @@ class TiendaRepository(ABC):
         """
 
         nuevo_reactor = self._session.reactores.insert_one(
-            record.model_dump(by_alias=True, exclude=['id'])
+            record.model_dump(by_alias=True, exclude=["id"])
         )
         reactor_creado = self._session.reactores.find_one(
-            {'_id': nuevo_reactor.inserted_id}
+            {"_id": nuevo_reactor.inserted_id}
         )
 
         return reactor_creado
@@ -147,8 +149,8 @@ class TiendaRepository(ABC):
 
         if len(reactor) >= 1:
             reactor_actualizado = self._session.reactores.find_one_and_update(
-                {'_id': ObjectId(identificador)},
-                {'$set': reactor},
+                {"_id": ObjectId(identificador)},
+                {"$set": reactor},
                 return_document=ReturnDocument.AFTER,
             )
 
@@ -164,6 +166,6 @@ class TiendaRepository(ABC):
             Elementos eliminados de la colleccion.
 
         """
-        record = self._session.reactores.delete_one({'_id': ObjectId(identificador)})
+        record = self._session.reactores.delete_one({"_id": ObjectId(identificador)})
 
         return record
