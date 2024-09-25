@@ -2,13 +2,15 @@
     ubicacion en la base de datos."""
 
 # External libraries
+import traceback
+
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.reactores_model import ReactoresCollection
 from services.ubicacion_service import UbicacionService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 ubicaciones_reactores_registradas_controller = APIRouter(
     prefix='/ubicaciones', tags=['ubicaciones']
@@ -16,12 +18,12 @@ ubicaciones_reactores_registradas_controller = APIRouter(
 
 
 @ubicaciones_reactores_registradas_controller.get(
-    '/ubicaciones-reactores-registrados/{identificador}', status_code=200
+    '/ubicaciones-reactores-registrados/{identificador}',
+    status_code=200,
+    response_model=ReactoresCollection,
+    response_model_by_alias=False,
 )
-@wrapper
-def ubicaciones_reactores_registrados(
-    response: Response, identificador: int
-) -> RespuestaEstandar:
+def ubicaciones_reactores_registrados(response: Response, identificador: str):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:
@@ -31,43 +33,68 @@ def ubicaciones_reactores_registrados(
     Returns:
         Todos los reactores registrados en la base de datos
 
-        .. code-block: python
+        .. code-block:: python
 
             {
+              'msg': 'Se obtuvo el resultado exitosamente.',
+              'success': true,
               'data': [
                 {
-                  'NOMBRE_CIUDAD': 'Kinshasa',
-                  'CIUDAD_ID': 1,
-                  'NOMBRE_PAIS': 'Democratic Republic of the Congo',
-                  'PAIS_ID': 1,
-                  'ID_REACTOR': 765,
-                  'TIPO_REACTOR_ID': 9,
-                  'ESTADO_REACTOR_ID': 7,
-                  'NOMBRE_REACTOR': 'TRICO I',
-                  'POTENCIA_TERMICA': 50,
-                  'FECHA_PRIMERA_REACCION': '1959-06-06T00:00:00'
+                  'id': '662d0d325363bbc93a0c026b',
+                  'nombre_reactor': 'TRICO II',
+                  'pais': 'Democratic Republic of the Congo',
+                  'ciudad': 'Kinshasa',
+                  'tipo': 'TRIGA MARK II',
+                  'potencia_termica': 1000,
+                  'estado': 'EXTENDED SHUTDOWN',
+                  'fecha_primera_reaccion': '1972-03-24T00:00:00'
                 },
                 {
-                  'NOMBRE_CIUDAD': 'Kinshasa',
-                  'CIUDAD_ID': 1,
-                  'NOMBRE_PAIS': 'Democratic Republic of the Congo',
-                  'PAIS_ID': 1,
-                  'ID_REACTOR': 13,
-                  'TIPO_REACTOR_ID': 1,
-                  'ESTADO_REACTOR_ID': 1,
-                  'NOMBRE_REACTOR': 'sag',
-                  'POTENCIA_TERMICA': 123,
-                  'FECHA_PRIMERA_REACCION': '1963-01-01T00:00:00'
-                }],
-              'msg': 'Se obtuvo el resultado exitosamente.',
-              'success': true
+                  'id': '662d0d325363bbc93a0c0565',
+                  'nombre_reactor': 'TRICO I',
+                  'pais': 'Democratic Republic of the Congo',
+                  'ciudad': 'Kinshasa',
+                  'tipo': 'TRIGA MARK I',
+                  'potencia_termica': 50,
+                  'estado': 'PERMANENT SHUTDOWN',
+                  'fecha_primera_reaccion': '1959-06-06T00:00:00'
+                }
+              ]
             }
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = [None]
+    status_code = 200
+    message = None
 
-    with UbicacionService(cursor=cursor) as ubicacion_service:
-        respuesta = ubicacion_service.ubicaciones_repository.list_reactores(identificador)
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
+
+        with UbicacionService(cursor=cursor) as ubicacion_service:
+            data = ubicacion_service.ubicaciones_repository.get_list_reactores(
+                identificador
+            )
+
+        if data is None:
+            message = f'Reactores en ubicación {identificador} no encontrados'
+            status_code = 404
+            data = None
+            success = False
+        else:
+            message = 'Se obtuvo el resultado exitosamente.'
+            success = True
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = None
+        message = f'Error al obtener el resultado {traceback.format_exc()}'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        respuesta = ReactoresCollection(success=success, msg=message, data=data)
 
     return respuesta

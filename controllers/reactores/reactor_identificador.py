@@ -1,22 +1,26 @@
 """Modulo con el endpoint para obtener un reactor por identificador (ID)"""
 
 # External libraries
+import traceback
+
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.reactores_model import ReactorCollection, ReactorModel
 from services.reactor_service import ReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 reactor_identificador_controller = APIRouter(prefix='/reactores', tags=['reactores'])
 
 
 @reactor_identificador_controller.get(
-    '/reactor-identificador/{identificador}', status_code=200
+    '/reactor-identificador/{identificador}',
+    status_code=200,
+    response_model=ReactorCollection,
+    response_model_by_alias=False,
 )
-@wrapper
-def reactor_identificador(response: Response, identificador: int) -> RespuestaEstandar:
+def reactor_identificador(response: Response, identificador: str):
     """Obtener informacion de un reactor registrado en la tabla REACTORES
         segun su ID.
 
@@ -28,30 +32,49 @@ def reactor_identificador(response: Response, identificador: int) -> RespuestaEs
     Returns:
         Información corespondiente al reactor que queremos consultar.
 
-         .. code-block: python
+         .. code-block:: python
 
             {
-              'data': [
-                {
-                  'ID': 481,
-                  'TIPO_REACTOR_ID': 23,
-                  'ESTADO_REACTOR_ID': 2,
-                  'CIUDAD_ID': 137,
-                  'NOMBRE': 'NTR General Electric',
-                  'POTENCIA_TERMICA': 100,
-                  'FECHA_PRIMERA_REACCION': '1957-11-15T00:00:00'
-                }],
               'msg': 'Se obtuvo el resultado exitosamente.',
-              'success': true
+              'success': true,
+              'data': {
+                'id': '662d0d325363bbc93a0c027c',
+                'nombre_reactor': 'SUR Hannover',
+                'pais': 'Germany',
+                'ciudad': 'Hannover',
+                'tipo': 'HOMOG (S)',
+                'potencia_termica': 0.001,
+                'estado': 'DECOMMISSIONED',
+                'fecha_primera_reaccion': '1971-12-09T00:00:00'
+              }
             }
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = ReactorModel()
+    status_code = 200
+    message = None
 
-    with ReactorService(cursor=cursor) as reactor_service:
-        respuesta = reactor_service.reactores_repository.get_by_id(identificador)
-        if respuesta is None:
-            respuesta = 'No encontramos un registro con el identificador.'
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
 
-    return respuesta
+        with ReactorService(cursor=cursor) as reactor_service:
+            data = reactor_service.reactores_repository.get_by_id(identificador)
+            if data is None:
+                data = ReactorModel()
+        message = 'Se obtuvo el resultado exitosamente.'
+        success = True
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = ReactorModel()
+        message = 'Error al obtener el resultado'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        res = ReactorCollection(success=success, msg=message, data=data)
+
+    return res

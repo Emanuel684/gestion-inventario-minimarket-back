@@ -2,22 +2,29 @@
     en la base de datos."""
 
 # External libraries
+import traceback
+
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.tipos_reactores_model import TiposReactoresCollection
 from services.tipo_reactor_service import TipoReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 tipo_reactores_registrados_controller = APIRouter(
     prefix='/tipo-reactores', tags=['tipo_reactores']
 )
 
 
-@tipo_reactores_registrados_controller.get('/tipo-reactores-registrados', status_code=200)
-@wrapper
-def tipo_reactores_registrados(response: Response) -> RespuestaEstandar:
+@tipo_reactores_registrados_controller.get(
+    '/tipo-reactores-registrados',
+    status_code=200,
+    response_model=TiposReactoresCollection,
+    response_model_by_alias=False,
+)
+# @wrapper
+def tipo_reactores_registrados(response: Response):
     """Obtiene todos los tipo de reactores registrados en la base de datos.
 
     Args:
@@ -27,17 +34,17 @@ def tipo_reactores_registrados(response: Response) -> RespuestaEstandar:
     Returns:
         Todos los tipo de reactores registrados en la base de datos.
 
-        .. code-block: python
+        .. code-block:: python
 
             {
               'data': [
                 {
-                  'ID': 1,
-                  'NOMBRE': 'TRIGA MARK II'
+                  'id': '662cf9395363bbc93a0c00d9',
+                  'tipo': 'TANK'
                 },
                 {
-                  'ID': 2,
-                  'NOMBRE': 'POOL'
+                  'id': '662cf9395363bbc93a0c00d6',
+                  'tipo': 'HEAVY WATER'
                 }],
               'msg': 'Se obtuvo el resultado exitosamente.',
               'success': true
@@ -45,10 +52,29 @@ def tipo_reactores_registrados(response: Response) -> RespuestaEstandar:
 
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = None
+    status_code = 200
+    message = None
 
-    with TipoReactorService(cursor=cursor) as tipo_reactor_service:
-        respuesta = tipo_reactor_service.tipo_reactor_repository.list()
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
 
-    return respuesta
+        with TipoReactorService(cursor=cursor) as tipo_reactor_service:
+            data = tipo_reactor_service.tipo_reactor_repository.get_list()
+        message = 'Se obtuvo el resultado exitosamente.'
+        success = True
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = None
+        message = f'Error al obtener el resultado {traceback.format_exc()}'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        res = TiposReactoresCollection(success=success, msg=message, data=data)
+
+    return res

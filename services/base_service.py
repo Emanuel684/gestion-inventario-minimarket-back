@@ -1,7 +1,10 @@
 """Modulo con la clase base de todos los servicios."""
 
 # External libraries
-from abc import ABC, abstractmethod
+from abc import ABC
+
+# Own libraries
+from contexts.database import crear_mongo_conexion
 
 
 class ServiceBase(ABC):
@@ -11,14 +14,5 @@ class ServiceBase(ABC):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.rollback()
-
-    @abstractmethod
-    def commit(self):
-        """Commits la transaccion actual."""
-        raise NotImplementedError()
-
-    @abstractmethod
-    def rollback(self):
-        """Rollbacks la transaccion actual."""
-        raise NotImplementedError()
+        conexion = crear_mongo_conexion()
+        conexion.close()

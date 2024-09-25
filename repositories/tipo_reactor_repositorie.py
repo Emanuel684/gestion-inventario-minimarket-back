@@ -1,75 +1,87 @@
-"""Modulo con las clases correspondientes al repository de la tabla
-    TIPO_REACTORES en la base de datos."""
+"""Modulo con las clases correspondientes al repository de la tabla TIPO_REACTORES
+    en la base de datos."""
 
 # External libraries
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Type, Optional, List
+from abc import ABC
+from bson import ObjectId
 from sqlmodel import Session
-from models.tipo_reactor_model import BaseModel, TipoReactor
-
-T = TypeVar('T', bound=BaseModel)
 
 
-class GenericRepository(Generic[T], ABC):
-    """Generic base repository."""
-
-    @abstractmethod
-    def get_by_id(self, id: int) -> Optional[T]:
-        """Get a single record by id.
-
-        Args:
-            id (int): Record id.
-
-        Returns:
-            Optional[T]: Record or none.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def list(self, **filters) -> List[T]:
-        """Gets a list of records
-
-        Args:
-            **filters: Filter conditions, several criteria are linked with a logical 'and'.
-
-         Raises:
-            ValueError: Invalid filter condition.
-
-        Returns:
-            List[T]: List of records.
-        """
-        raise NotImplementedError()
-
-
-class TipoReactorRepository(GenericRepository[T], ABC):
-    """Generic SQL Repository."""
+class TipoReactorRepository(ABC):
+    """Repositorio correspondiente a las Ubicaciones de los reactores."""
 
     def __init__(self, session: Session) -> None:
-        """Creates a new repository instance.
+        """Crea una nueva instancia del repositorio y la conexion de Mongo.
 
         Args:
-            session (Session): SQLModel session.
+            session: MongoDb session.
         """
         self._session = session
 
-    def get_by_id(self, id: int) -> Optional[T]:
-        respuesta = self._session.execute(
-            f"""SELECT r.ID ID_REACTOR, r.TIPO_REACTOR_ID, r.ESTADO_REACTOR_ID, r.CIUDAD_ID, r.NOMBRE NOMBRE_REACTOR, r.POTENCIA_TERMICA, r.FECHA_PRIMERA_REACCION,
-tr.NOMBRE NOMBRE_TIPO_REACTOR FROM IAEA.REACTORES r 
-INNER JOIN IAEA.TIPO_REACTORES tr ON r.TIPO_REACTOR_ID = tr.ID 
-WHERE R.TIPO_REACTOR_ID = '{id}'"""
+    def get_by_id(self, identificador: str) -> dict:
+        """Obtiene la informacion de un tipo de reactor segun su identificador
+
+        Args:
+            identificador (str): Identificador ObjectId de MongoDb
+
+        Returns:
+            Informacion correspondiente al tipo de reactor
+
+            .. code-block:: python
+
+                [
+                    {
+                      'id': '662d0d325363bbc93a0c0425',
+                      'nombre_reactor': 'PBR Plum Brook Reactor',
+                      'pais': 'United States of America',
+                      'ciudad': 'Sandusky, OH',
+                      'tipo': 'TANK',
+                      'potencia_termica': 60000,
+                      'estado': 'DECOMMISSIONED',
+                      'fecha_primera_reaccion': '1961-01-01T00:00:00'
+                    },
+                    {
+                      'id': '662d0d325363bbc93a0c0553',
+                      'nombre_reactor': 'HFETR',
+                      'pais': 'China',
+                      'ciudad': 'Chengdu',
+                      'tipo': 'TANK',
+                      'potencia_termica': 125000,
+                      'estado': 'OPERATIONAL',
+                      'fecha_primera_reaccion': '1979-12-27T00:00:00'
+                    }
+                ]
+
+        """
+        res_tipo_reac = self._session.tipos_reactores.find_one(
+            {'_id': ObjectId(identificador)}
         )
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchall()
-        print('respuesta: ', respuesta)
+        respuesta = self._session.reactores.find({'tipo': res_tipo_reac['tipo']})
 
         return respuesta
 
-    def list(self, **filters) -> List[T]:
-        respuesta = self._session.execute("""SELECT * FROM IAEA.TIPO_REACTORES tr """)
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchall()
+    def get_list(self) -> list:
+        """Obtener todos los tipos de reactores registrados en la colleccion de
+            Mongo Db
+
+        Returns:
+            Todos los tipos de reactores
+
+            .. code-block:: python
+
+                [
+                    {
+                      'id': '662cf9395363bbc93a0c00d9',
+                      'tipo': 'TANK'
+                    },
+                    {
+                      'id': '662cf9395363bbc93a0c00d6',
+                      'tipo': 'HEAVY WATER'
+                    }
+                ]
+
+        """
+        tipos_reactores = self._session.tipos_reactores.find({})
+        respuesta = list(tipos_reactores)
 
         return respuesta

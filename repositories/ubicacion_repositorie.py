@@ -1,85 +1,112 @@
-"""Modulo con las clases correspondientes al repository de la tabla
-    CIUDADES Y PAISES en la base de datos."""
+"""Modulo con las clases correspondientes al repository de la tabla CIUDADES
+    y PAISES en la base de datos."""
 
 # External libraries
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Optional, List
+from abc import ABC
+from bson import ObjectId
 from sqlmodel import Session
-from models.ciudad_model import BaseModel
-
-T = TypeVar('T', bound=BaseModel)
 
 
 class UbicacionRepository(ABC):
-    """Generic SQL Repository."""
+    """Repositorio correspondiente a las Ubicaciones de los reactores."""
 
     def __init__(self, session: Session) -> None:
-        """Crea una nueva instancia del repositorio.
+        """Crea una nueva instancia del repositorio y la conexion de Mongo.
 
         Args:
-            session: SQLModel session.
+            session: MongoDb session.
         """
         self._session = session
 
-    def get_by_id(self, id: int) -> Optional[T]:
-        """
+    def get_by_id(self, identificador: str) -> dict:
+        """Obtiene la informacion de una ubicacion segun su identificador
+
         Args:
-            id:
+            identificador (str): Identificador ObjectId de MongoDb
 
         Returns:
+            Informacion correspondiente a las ubicaciones de los reactores
+
+            .. code-block:: python
+
+                {
+                    'id': '662cfec75363bbc93a0c0125',
+                    'nombre_pais': 'Democratic Republic of the Congo',
+                    'nombre_ciudad': 'Kinshasa'
+                }
 
         """
-        respuesta = self._session.execute(
-            f"""SELECT c.NOMBRE NOMBRE_CIUDAD, c.ID CIUDAD_ID, 
-                p.NOMBRE NOMBRE_PAIS, p.ID PAIS_ID FROM IAEA.CIUDADES c 
-            INNER JOIN IAEA.PAISES p ON p.ID = c.PAIS_ID 
-            WHERE c.ID = {id}"""
-        )
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchone()
-        print('respuesta: ', respuesta)
+        respuesta = self._session.ubicaciones.find_one({'_id': ObjectId(identificador)})
 
         return respuesta
 
-    def list(self, **filters) -> List[T]:
-        """
-        Args:
-            **filters:
+    def get_list(self) -> list:
+        """Obtener todos las ubicaciones registradass en la colleccion de
+            Mongo Db
 
         Returns:
+            Todas las ubicaciones registradas
+
+            .. code-block:: python
+
+                [
+                    {
+                      'id': '662cfec75363bbc93a0c0125',
+                      'nombre_pais': 'Democratic Republic of the Congo',
+                      'nombre_ciudad': 'Kinshasa'
+                    },
+                    {
+                      'id': '662cfec75363bbc93a0c0126',
+                      'nombre_pais': 'Algeria',
+                      'nombre_ciudad': 'Algiers'
+                    }
+                ]
 
         """
-        respuesta = self._session.execute(
-            """SELECT c.NOMBRE NOMBRE_CIUDAD, c.ID CIUDAD_ID FROM IAEA.CIUDADES c """
-        )
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchall()
+        ubicaciones = self._session.ubicaciones.find({})
+        respuesta = list(ubicaciones)
 
         return respuesta
 
-    def list_reactores(self, id: int):
-        """
-        Args:
-            id:
+    def get_list_reactores(self, identificador: str) -> list:
+        """Obtener todos los reactores registrados en una ubicacion en la base
+            de datos de Mongo.
 
         Returns:
+            Todos los reactores en una ubicacion registradas
+
+            .. code-block:: python
+
+                [
+                    {
+                      'id': '662d0d325363bbc93a0c026b',
+                      'nombre_reactor': 'TRICO II',
+                      'pais': 'Democratic Republic of the Congo',
+                      'ciudad': 'Kinshasa',
+                      'tipo': 'TRIGA MARK II',
+                      'potencia_termica': 1000,
+                      'estado': 'EXTENDED SHUTDOWN',
+                      'fecha_primera_reaccion': '1972-03-24T00:00:00'
+                    },
+                    {
+                      'id': '662d0d325363bbc93a0c0565',
+                      'nombre_reactor': 'TRICO I',
+                      'pais': 'Democratic Republic of the Congo',
+                      'ciudad': 'Kinshasa',
+                      'tipo': 'TRIGA MARK I',
+                      'potencia_termica': 50,
+                      'estado': 'PERMANENT SHUTDOWN',
+                      'fecha_primera_reaccion': '1959-06-06T00:00:00'
+                    }
+                ]
 
         """
-        respuesta = self._session.execute(
-            f"""SELECT c.NOMBRE NOMBRE_CIUDAD, c.ID CIUDAD_ID, 
-                    p.NOMBRE NOMBRE_PAIS, p.ID PAIS_ID, r.ID ID_REACTOR, 
-                    r.TIPO_REACTOR_ID, r.ESTADO_REACTOR_ID, r.CIUDAD_ID, 
-                    r.NOMBRE NOMBRE_REACTOR, r.POTENCIA_TERMICA, 
-                    r.FECHA_PRIMERA_REACCION
-                FROM IAEA.REACTORES r
-                INNER JOIN IAEA.CIUDADES c ON c.ID = r.CIUDAD_ID 
-                INNER JOIN IAEA.PAISES p ON p.ID = c.PAIS_ID 
-                WHERE c.ID = {id}"""
+        res_ubicaciones_id = self.get_by_id(identificador)
+        respuesta = self._session.reactores.find(
+            {
+                'pais': res_ubicaciones_id['nombre_pais'],
+                'ciudad': res_ubicaciones_id['nombre_ciudad'],
+            }
         )
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchall()
 
         return respuesta

@@ -2,44 +2,81 @@
     segun su identificador."""
 
 # External libraries
+import traceback
+
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar, ReactorID
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.reactores_model import ReactorCollection, UpdateReactorModel, ReactorModel
 from services.reactor_service import ReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 actualizar_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
 
 
-@actualizar_reactor_controller.put('/actualizar-reactor', status_code=200)
-@wrapper
-def actualizar_reactor(response: Response, reactor: ReactorID) -> RespuestaEstandar:
+@actualizar_reactor_controller.put(
+    '/actualizar-reactor/{identificador}',
+    status_code=200,
+    response_model=ReactorCollection,
+    response_model_by_alias=False,
+)
+def actualizar_reactor(
+    response: Response, identificador: str, reactor: UpdateReactorModel
+):
     """Actualiza la informacion correspondiente a un reactor en la base de datos.
 
     Returns:
         Si la informacion del reactor fue actualizada correctamente o no.
 
-        .. code-block: python
+        .. code-block:: python
 
             {
-              'data': 'Reactor actualizado correctamente',
               'msg': 'Se obtuvo el resultado exitosamente.',
-              'success': true
+              'success': true,
+              'data': {
+                'id': '6632967e003a94e8c87d5658',
+                'nombre_reactor': 'Isis PRUEBA ACTUALIZACION',
+                'pais': 'France',
+                'ciudad': 'Gif-sur-Yvette',
+                'tipo': 'POOL',
+                'potencia_termica': 700,
+                'estado': 'UNDER DECOMMISSIONING',
+                'fecha_primera_reaccion': '1966-04-28T00:00:00'
+              }
             }
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = ReactorModel()
+    status_code = 200
+    message = None
 
-    with ReactorService(cursor=cursor) as reactor_service:
-        respuesta = reactor_service.reactores_repository.get_by_id(reactor.id)
-        if respuesta is not None:
-            reactor_service.reactores_repository.update(reactor)
-            reactor_service.commit()
-            respuesta = 'Reactor actualizado correctamente'
-        else:
-            respuesta = 'El reactor ya existe'
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
+
+        with ReactorService(cursor=cursor) as reactor_service:
+            data = reactor_service.reactores_repository.get_by_id(identificador)
+            if data is not None:
+                data = reactor_service.reactores_repository.update(identificador, reactor)
+                message = 'Se obtuvo el resultado exitosamente.'
+                success = True
+            else:
+                message = f'Reactor {identificador} no encontrado'
+                status_code = 404
+                data = ReactorModel()
+                success = False
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = ReactorModel()
+        message = 'Error al obtener el resultado'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        respuesta = ReactorCollection(success=success, msg=message, data=data)
 
     return respuesta

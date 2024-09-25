@@ -1,20 +1,25 @@
 """Modulo con el endpoint para crear un reactor y la informacion asociado a este"""
 
 # External libraries
-from fastapi import APIRouter, Response
+import traceback
+
+from fastapi import APIRouter, Response, status
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar, Reactor
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.reactores_model import ReactorModel, ReactorCollection
 from services.reactor_service import ReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 crear_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
 
 
-@crear_reactor_controller.post('/crear-reactor', status_code=200)
-@wrapper
-def crear_reactor(response: Response, reactor: Reactor) -> RespuestaEstandar:
+@crear_reactor_controller.post(
+    '/crear-reactor',
+    status_code=status.HTTP_201_CREATED,
+    response_model=ReactorCollection,
+)
+def crear_reactor(response: Response, reactor: ReactorModel):
     """Crea un reactor dada la informacion correspondiente al mismo.
 
     Args:
@@ -25,24 +30,49 @@ def crear_reactor(response: Response, reactor: Reactor) -> RespuestaEstandar:
     Returns:
         Si el reactor fue creado exitosamente o no.
 
-        .. code-block: python
+        .. code-block:: python
 
             {
-              'data': 'Reactor creado axitosamente',
               'msg': 'Se obtuvo el resultado exitosamente.',
-              'success': true
+              'success': true,
+              'data': {
+                '_id': '662d10f8dd91ebe8c34a81f2',
+                'nombre_reactor': 'REACTOR',
+                'pais': 'Democratic Republic of the Congo',
+                'ciudad': 'Kinshasa',
+                'tipo': 'TRIGA MARK II',
+                'potencia_termica': 15000,
+                'estado': 'EXTENDED SHUTDOWN',
+                'fecha_primera_reaccion': '1972-03-24T00:00:00'
+              }
             }
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = None
+    status_code = 200
+    message = None
 
-    respuesta = 'No fue posible crear el reactor'
-    with ReactorService(cursor=cursor) as reactor_service:
-        # uow.heroes.add(Hero(name='John Wick', secret_name='John Wick', team_id=team.id))
-        reactor_service.reactores_repository.add(reactor)
-        reactor_service.commit()
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
 
-        respuesta = 'Reactor creado axitosamente'
+        data = {}
+        with ReactorService(cursor=cursor) as reactor_service:
+            data = reactor_service.reactores_repository.add(reactor)
+
+        message = 'Se obtuvo el resultado exitosamente.'
+        success = True
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = None
+        message = 'Error al obtener el resultado'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        respuesta = ReactorCollection(success=success, msg=message, data=data)
 
     return respuesta

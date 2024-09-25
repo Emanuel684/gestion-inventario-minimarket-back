@@ -1,14 +1,14 @@
 """Modulo con los modelos de la base de datos"""
 
 # External libraries
-from sqlmodel import SQLModel
-from utilities.utilities import to_camel
+from pydantic import BaseModel
 
 
-class BaseModel(SQLModel):
-    """Clase de modelo SQL base."""
+class RespuestaEstandar(BaseModel):
+    """Clase que representa las respuestas estándar que tiene la API."""
 
-    class Config:
-        alias_generator = to_camel
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
+    msg: str
+    """Mensaje con información sobre la ejecución del endpoint."""
+
+    success: bool
+    """Indica si la ejecución del endpoint fue exitosa."""

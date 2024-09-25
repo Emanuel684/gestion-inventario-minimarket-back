@@ -5,7 +5,6 @@ from typing import Callable
 from sqlmodel import Session
 
 # Own libraries
-from contexts.database import crear_oracle_conexion
 from repositories.reactor_repositorie import ReactorRepository
 from services.base_service import ServiceBase
 
@@ -23,11 +22,3 @@ class ReactorService(ServiceBase):
         self._cursor = self._cursor()
         self.reactores_repository = ReactorRepository(self._cursor)
         return super().__enter__()
-
-    def commit(self):
-        conexion = crear_oracle_conexion()
-        conexion.commit()
-
-    def rollback(self):
-        conexion = crear_oracle_conexion()
-        conexion.rollback()

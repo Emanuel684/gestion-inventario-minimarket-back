@@ -1,0 +1,462 @@
+[{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d9"
+  },
+  "tipo": "TANK"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d6"
+  },
+  "tipo": "HEAVY WATER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00dc"
+  },
+  "tipo": "TRIGA MARK I"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f6"
+  },
+  "tipo": "PRESSURE VESSEL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0112"
+  },
+  "tipo": "MOBILE EDU."
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e5"
+  },
+  "tipo": "TANK IN POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e2"
+  },
+  "tipo": "HOMOG"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e9"
+  },
+  "tipo": "LOOP TYPE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0100"
+  },
+  "tipo": "BWR-PROTOTYPE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0106"
+  },
+  "tipo": "HIGH TEMP GAS"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0119"
+  },
+  "tipo": "GRAPHITE AGR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e4"
+  },
+  "tipo": "POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ee"
+  },
+  "tipo": "PULSING"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0109"
+  },
+  "tipo": "CRIT GRAPHITE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010d"
+  },
+  "tipo": "ZRH"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00de"
+  },
+  "tipo": "PWR PROPULSION"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f8"
+  },
+  "tipo": "GRAPHITE PILE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00fd"
+  },
+  "tipo": "POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0107"
+  },
+  "tipo": "TRIGA DUAL CORE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0111"
+  },
+  "tipo": "CHANNEL TYPE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ea"
+  },
+  "tipo": "GRAPHITE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00eb"
+  },
+  "tipo": "PWR POWER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0101"
+  },
+  "tipo": "EXPERIMENTAL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0114"
+  },
+  "tipo": "AQUEOUS BREEDER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0117"
+  },
+  "tipo": "GRAPHITE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011d"
+  },
+  "tipo": "POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011e"
+  },
+  "tipo": "SLOWPOKE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00dd"
+  },
+  "tipo": "CRIT ASSEMBLY"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d4"
+  },
+  "tipo": "TRIGA MARK II"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d5"
+  },
+  "tipo": "POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f7"
+  },
+  "tipo": "FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0120"
+  },
+  "tipo": "POOL/CHANNELS"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00da"
+  },
+  "tipo": "ARGONAUT"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f1"
+  },
+  "tipo": "ZERO POWER D2O"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00df"
+  },
+  "tipo": "TRIGA MARK III"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e3"
+  },
+  "tipo": "CRIT FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e8"
+  },
+  "tipo": "SPACE TEST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ed"
+  },
+  "tipo": "FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f4"
+  },
+  "tipo": "FAST BREEDER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f5"
+  },
+  "tipo": "HOMOG PUL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00fe"
+  },
+  "tipo": "TRIGA MARK F"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010c"
+  },
+  "tipo": "ZRH"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0115"
+  },
+  "tipo": "TRIGA ACPR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d8"
+  },
+  "tipo": "TANK WWR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e7"
+  },
+  "tipo": "FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ff"
+  },
+  "tipo": "TRIGA MARK CONV"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00d7"
+  },
+  "tipo": "SUBCRIT"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e1"
+  },
+  "tipo": "TRIGA CONV"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ef"
+  },
+  "tipo": "FAST SOURCE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f0"
+  },
+  "tipo": "SLOWPOKE-2"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0103"
+  },
+  "tipo": "GAS"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0104"
+  },
+  "tipo": "POOL"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0118"
+  },
+  "tipo": "GRAPHITE CO2"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e0"
+  },
+  "tipo": "HOMOG (L)"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00fb"
+  },
+  "tipo": "N2 COOLED"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00fc"
+  },
+  "tipo": "TRIGA MODIFIED"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0102"
+  },
+  "tipo": "PWR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0108"
+  },
+  "tipo": "PRESSURIZED"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010a"
+  },
+  "tipo": "AIR COOLED"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011b"
+  },
+  "tipo": "ZERO POWER HTD"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f3"
+  },
+  "tipo": "MNSR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010e"
+  },
+  "tipo": "ORGANIC MODER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00ec"
+  },
+  "tipo": "FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0105"
+  },
+  "tipo": "FAST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010b"
+  },
+  "tipo": "TRIGA"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011f"
+  },
+  "tipo": "POOL - VARIABLE CORE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00fa"
+  },
+  "tipo": "BWR POWER"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0110"
+  },
+  "tipo": "HEATING PROT"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0113"
+  },
+  "tipo": "No registrado"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011c"
+  },
+  "tipo": "POOL-2 CORES"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00e6"
+  },
+  "tipo": "PROMPT BURST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f9"
+  },
+  "tipo": "FAST BURST"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c011a"
+  },
+  "tipo": "HE COOLED"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00db"
+  },
+  "tipo": "HOMOG (S)"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c00f2"
+  },
+  "tipo": "GRAPHITE"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c010f"
+  },
+  "tipo": "BWR"
+},
+{
+  "_id": {
+    "$oid": "662cf9395363bbc93a0c0116"
+  },
+  "tipo": "U-233 FUELLED"
+}]

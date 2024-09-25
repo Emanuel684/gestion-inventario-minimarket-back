@@ -1,164 +1,169 @@
-"""Modulo con las clases correspondientes al repository de la tabla REACTORES
-    en la base de datos."""
+"""Modulo con las clases correspondientes al repository de la tabla REACTORES en
+    la base de datos."""
 
 # External libraries
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Type, Optional, List
-
+from abc import ABC
+from bson import ObjectId
+from models.reactores_model import ReactorModel
+from pymongo import ReturnDocument
 from sqlmodel import Session
 
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from models.reactor_model import BaseModel
 
-T = TypeVar('T', bound=BaseModel)
-
-
-class GenericRepository(Generic[T], ABC):
-    """Repositorio base genérico."""
-
-    @abstractmethod
-    def get_by_id(self, id: int) -> Optional[T]:
-        """Get a single record by id.
-
-        Args:
-            id (int): Record id.
-
-        Returns:
-            Optional[T]: Record or none.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def list(self, **filters) -> List[T]:
-        """Gets a list of records
-
-        Args:
-            **filters: Filter conditions, several criteria are linked with a logical 'and'.
-
-         Raises:
-            ValueError: Invalid filter condition.
-
-        Returns:
-            List[T]: List of records.
-        """
-        print('Lista de reactores')
-        raise NotImplementedError()
-
-    @abstractmethod
-    def add(self, record: T) -> T:
-        """Creates a new record.
-
-        Args:
-            record (T): The record to be created.
-
-        Returns:
-            T: The created record.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def update(self, record: T) -> T:
-        """Updates an existing record.
-
-        Args:
-            record (T): The record to be updated incl. record id.
-
-        Returns:
-            T: The updated record.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def delete(self, id: int) -> None:
-        """Deletes a record by id.
-
-        Args:
-            id (int): Record id.
-        """
-        raise NotImplementedError()
-
-
-class ReactorRepository(GenericRepository[T], ABC):
-    """Generic SQL Repository."""
+class ReactorRepository(ABC):
+    """Repositorio correspondiente a las Ubicaciones de los reactores."""
 
     def __init__(self, session: Session) -> None:
-        """Creates a new repository instance.
+        """Crea una nueva instancia del repositorio y la conexion de Mongo.
 
         Args:
-            session (Session): SQLModel session.
-            model_cls (Type[T]): SQLModel class type.
+            session: MongoDb session.
         """
-        print('__init__ GenericSqlRepository')
         self._session = session
 
-    def get_by_id(self, id: int) -> Optional[T]:
-        respuesta = self._session.execute(
-            f"""SELECT * FROM IAEA.REACTORES R WHERE R.ID = '{id}'"""
+    def get_by_id(self, identificador: str) -> dict:
+        """Obtiene la informacion de un reactor segun su identificador
+
+        Args:
+            identificador (str): Identificador ObjectId de MongoDb
+
+        Returns:
+            Informacion correspondiente al reactor
+
+            .. code-block:: python
+
+                {
+                    'id': '662d0d325363bbc93a0c027c',
+                    'nombre_reactor': 'SUR Hannover',
+                    'pais': 'Germany',
+                    'ciudad': 'Hannover',
+                    'tipo': 'HOMOG (S)',
+                    'potencia_termica': 0.001,
+                    'estado': 'DECOMMISSIONED',
+                    'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                }
+
+        """
+        respuesta = self._session.reactores.find_one({'_id': ObjectId(identificador)})
+        return respuesta
+
+    def get_list(self) -> list:
+        """Obtener todos los reactores registrados en la colleccion de Mongo Db
+
+        Returns:
+            Todos los reactores
+
+            .. code-block:: python
+
+                [
+                    {
+                      'id': '662d0d325363bbc93a0c027c',
+                      'nombre_reactor': 'SUR Hannover',
+                      'pais': 'Germany',
+                      'ciudad': 'Hannover',
+                      'tipo': 'HOMOG (S)',
+                      'potencia_termica': 0.001,
+                      'estado': 'DECOMMISSIONED',
+                      'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                    },
+                    {
+                      'id': '662d0d325363bbc93a0c027f',
+                      'nombre_reactor': 'SUR Munich',
+                      'pais': 'Germany',
+                      'ciudad': 'Munich',
+                      'tipo': 'HOMOG (S)',
+                      'potencia_termica': 0,
+                      'estado': 'DECOMMISSIONED',
+                      'fecha_primera_reaccion': '1962-02-01T00:00:00'
+                    }
+                ]
+
+        """
+        reactores = self._session.reactores.find({})
+        respuesta = list(reactores)
+        return respuesta
+
+    def add(self, record: ReactorModel) -> dict:
+        """Crea un nuevo registro en la coreccion de reactores
+
+        Args:
+            record (ReactorModel): informacion del reactor a agregar a la colleccion
+
+        Returns:
+            Informacion del reactor agregado
+
+            .. code-block:: python
+
+                {
+                    'id': '662d0d325363bbc93a0c027c',
+                    'nombre_reactor': 'SUR Hannover',
+                    'pais': 'Germany',
+                    'ciudad': 'Hannover',
+                    'tipo': 'HOMOG (S)',
+                    'potencia_termica': 0.001,
+                    'estado': 'DECOMMISSIONED',
+                    'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                }
+
+        """
+
+        nuevo_reactor = self._session.reactores.insert_one(
+            record.model_dump(by_alias=True, exclude=['id'])
         )
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchone()
+        reactor_creado = self._session.reactores.find_one(
+            {'_id': nuevo_reactor.inserted_id}
+        )
 
-        return respuesta
+        return reactor_creado
 
-    def list(self, **filters) -> List[T]:
-        respuesta = self._session.execute("""SELECT * FROM IAEA.REACTORES""")
-        columns = [col[0] for col in respuesta.description]
-        respuesta.rowfactory = lambda *args: dict(zip(columns, args))
-        respuesta = respuesta.fetchall()
-
-        return respuesta
-
-    def add(self, record: T) -> T:
-        """Crea un nuevo registro en la tabla de REACTORES
+    def update(self, identificador: str, record: ReactorModel) -> dict:
+        """Actualiza informacion de un reactor segun su identificador.
 
         Args:
-            record:
+            identificador (str): Identificador del reactor a actualizar informacion.
+            record (ReactorModel): Informacion que se actualizara del registro.
 
         Returns:
+            Informacion del reactor actualizado
+
+            .. code-block:: python
+
+                {
+                    'id': '662d0d325363bbc93a0c027c',
+                    'nombre_reactor': 'SUR Hannover',
+                    'pais': 'Germany',
+                    'ciudad': 'Hannover',
+                    'tipo': 'HOMOG (S)',
+                    'potencia_termica': 0.001,
+                    'estado': 'DECOMMISSIONED',
+                    'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                }
 
         """
-        conexion = crear_oracle_conexion()
-        cursor = crear_cursor_oracle(conexion)
+        reactor = {
+            clave: valor
+            for clave, valor in record.model_dump(by_alias=True).items()
+            if valor is not None
+        }
 
-        update = [
-            record.tipo_reactor_id,
-            record.estado_reactor_id,
-            record.ciudad_id,
-            record.nombre,
-            record.potencia_termica,
-            record.fecha_primera_reaccion,
-        ]
-        cursor().callproc('IAEA.P_INSERTA_REACTOR', update)
-        return record
+        if len(reactor) >= 1:
+            reactor_actualizado = self._session.reactores.find_one_and_update(
+                {'_id': ObjectId(identificador)},
+                {'$set': reactor},
+                return_document=ReturnDocument.AFTER,
+            )
 
-    def update(self, record: T) -> T:
-        """
+        return reactor_actualizado
+
+    def delete(self, identificador: str):
+        """Elimina un reactor segun su identificador en la coleccion de reactores.
 
         Args:
-            record:
+            identificador (str): Identificador del reactor a actualizar informacion.
 
         Returns:
+            Elementos eliminados de la colleccion.
 
         """
-        conexion = crear_oracle_conexion()
-        cursor = crear_cursor_oracle(conexion)
+        record = self._session.reactores.delete_one({'_id': ObjectId(identificador)})
 
-        update = [
-            record.id,
-            record.tipo_reactor_id,
-            record.estado_reactor_id,
-            record.ciudad_id,
-            record.nombre,
-            record.potencia_termica,
-            record.fecha_primera_reaccion,
-        ]
-        cursor().callproc('IAEA.P_ACTUALIZA_REACTOR', update)
         return record
-
-    def delete(self, id: int) -> None:
-        record = self.get_by_id(id)
-        if record is not None:
-            conexion = crear_oracle_conexion()
-            cursor = crear_cursor_oracle(conexion)
-            cursor().callproc('IAEA.P_ELIMINA_REACTOR', [id])

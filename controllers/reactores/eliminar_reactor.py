@@ -1,20 +1,20 @@
 """Modulo con el endpoint para eliminar un reactor por identificador (ID)"""
 
 # External libraries
-from fastapi import APIRouter, Response
+import traceback
+
+from fastapi import APIRouter, Response, HTTPException, status
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
 from services.reactor_service import ReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 eliminar_reactor_controller = APIRouter(prefix='/reactores', tags=['reactores'])
 
 
 @eliminar_reactor_controller.delete('/eliminar-reactor/{identificador}', status_code=200)
-@wrapper
-def elimina_reactor(response: Response, identificador: int) -> RespuestaEstandar:
+def elimina_reactor(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
     Args:
@@ -24,27 +24,37 @@ def elimina_reactor(response: Response, identificador: int) -> RespuestaEstandar
 
     Returns:
         Si la informacion del reactor fue eliminado correctamente o no.
-
-        .. code-block: python
-
-            {
-              'data': 'Reactor identificado como 1 eliminado correctamente',
-              'msg': 'Se obtuvo el resultado exitosamente.',
-              'success': true
-            }
+        Si fue eliminada correctamente regresara un status code de 204.
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = None
+    status_code = 200
+    message = None
 
-    respuesta = 'Reactor no eliminado correctamente'
-    with ReactorService(cursor=cursor) as reactor_service:
-        reactor_service.reactores_repository.delete(identificador)
-        hero_john = reactor_service.reactores_repository.get_by_id(identificador)
-        if hero_john is None:
-            respuesta = (
-                f'Reactor identificado como {identificador} eliminado correctamente'
-            )
-        reactor_service.commit()
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
 
-    return respuesta
+        data = 'Reactor no eliminado correctamente'
+        with ReactorService(cursor=cursor) as reactor_service:
+            delete_result = reactor_service.reactores_repository.delete(identificador)
+
+        if delete_result.deleted_count != 1:
+            raise HTTPException(status_code=404, detail=f"Student {id} not found")
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = None
+        message = 'Error al obtener el resultado'
+        success = False
+        status_code = 500
+    finally:
+        if delete_result.deleted_count == 1:
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+        response.status_code = status_code
+        res = {'success': success, 'msg': message, 'data': data}
+
+    return res

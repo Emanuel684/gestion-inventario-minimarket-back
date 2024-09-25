@@ -2,13 +2,15 @@
     La respuesta incluye todos los reactores asociados al tipo."""
 
 # External libraries
+import traceback
+
 from fastapi import APIRouter, Response
 
 # Own libraries
-from contexts.database import crear_oracle_conexion, crear_cursor_oracle
-from helpers.registro_parser import RespuestaEstandar
+from contexts.database import crear_mongo_conexion, crear_cursor_mongo
+from models.reactores_model import ReactoresCollection
 from services.tipo_reactor_service import TipoReactorService
-from utilities.qx_wrap import wrapper
+from helpers.config import get_log
 
 tipo_reactor_identificador_controller = APIRouter(
     prefix='/tipo-reactores', tags=['tipo_reactores']
@@ -16,12 +18,12 @@ tipo_reactor_identificador_controller = APIRouter(
 
 
 @tipo_reactor_identificador_controller.get(
-    '/tipo-reactores-identificador/{identificador}', status_code=200
+    '/tipo-reactores-identificador/{identificador}',
+    status_code=200,
+    response_model=ReactoresCollection,
+    response_model_by_alias=False,
 )
-@wrapper
-def tipo_reactores_identificador(
-    response: Response, identificador: int
-) -> RespuestaEstandar:
+def tipo_reactores_identificador(response: Response, identificador: str):
     """Obtiene todos los tipo de reactor por identificador (ID). La respuesta
         incluye todos los reactores asociados al tipo.
 
@@ -34,39 +36,58 @@ def tipo_reactores_identificador(
         Todos los tipo de reactor por identificador (ID). La respuesta
             incluye todos los reactores asociados al tipo.
 
-        .. code-block: python
+        .. code-block:: python
 
             {
               'data': [
                 {
-                  'ID_REACTOR': 587,
-                  'TIPO_REACTOR_ID': 1,
-                  'ESTADO_REACTOR_ID': 2,
-                  'CIUDAD_ID': 184,
-                  'NOMBRE_REACTOR': 'ITU-TRR',
-                  'POTENCIA_TERMICA': 250,
-                  'FECHA_PRIMERA_REACCION': '1979-03-11T00:00:00',
-                  'NOMBRE_TIPO_REACTOR': 'TRIGA MARK II'
+                  'id': '662d0d325363bbc93a0c0425',
+                  'nombre_reactor': 'PBR Plum Brook Reactor',
+                  'pais': 'United States of America',
+                  'ciudad': 'Sandusky, OH',
+                  'tipo': 'TANK',
+                  'potencia_termica': 60000,
+                  'estado': 'DECOMMISSIONED',
+                  'fecha_primera_reaccion': '1961-01-01T00:00:00'
                 },
                 {
-                  'ID_REACTOR': 610,
-                  'TIPO_REACTOR_ID': 1,
-                  'ESTADO_REACTOR_ID': 2,
-                  'CIUDAD_ID': 236,
-                  'NOMBRE_REACTOR': 'TRIGA Puspati (RTP)',
-                  'POTENCIA_TERMICA': 1000,
-                  'FECHA_PRIMERA_REACCION': '1982-06-28T00:00:00',
-                  'NOMBRE_TIPO_REACTOR': 'TRIGA MARK II'
+                  'id': '662d0d325363bbc93a0c0553',
+                  'nombre_reactor': 'HFETR',
+                  'pais': 'China',
+                  'ciudad': 'Chengdu',
+                  'tipo': 'TANK',
+                  'potencia_termica': 125000,
+                  'estado': 'OPERATIONAL',
+                  'fecha_primera_reaccion': '1979-12-27T00:00:00'
                 }],
               'msg': 'Se obtuvo el resultado exitosamente.',
               'success': true
             }
 
     """
-    conexion = crear_oracle_conexion()
-    cursor = crear_cursor_oracle(conexion)
+    success = None
+    data = None
+    status_code = 200
+    message = None
 
-    with TipoReactorService(cursor=cursor) as tipo_reactor_service:
-        response = tipo_reactor_service.tipo_reactor_repository.get_by_id(identificador)
+    try:
+        conexion = crear_mongo_conexion()
+        cursor = crear_cursor_mongo(conexion)
 
-    return response
+        with TipoReactorService(cursor=cursor) as tipo_reactor_service:
+            data = tipo_reactor_service.tipo_reactor_repository.get_by_id(identificador)
+        message = 'Se obtuvo el resultado exitosamente.'
+        success = True
+    except Exception:
+        log = get_log()
+        log.error(traceback.format_exc())
+
+        data = None
+        message = 'Error al obtener el resultado'
+        success = False
+        status_code = 500
+    finally:
+        response.status_code = status_code
+        res = ReactoresCollection(success=success, msg=message, data=data)
+
+    return res
