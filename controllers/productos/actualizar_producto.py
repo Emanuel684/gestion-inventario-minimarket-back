@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para actualiza un reactor y la informacion asociado a este
+"""Modulo con el endpoint para actualiza un producto y la informacion asociado a este
     segun su identificador."""
 
 # External libraries
@@ -9,26 +9,29 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import (ReactorCollection, ReactorModel,
-                                    UpdateReactorModel)
-from services.reactor_service import ReactorService
+from models.productos_model import (
+    UpdateproductoModel,
+    productoCollection,
+    productoModel,
+)
+from services.producto_service import ProductoService
 
-actualizar_reactor_controller = APIRouter(prefix="/productos", tags=["productos"])
+actualizar_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
 
 
-@actualizar_reactor_controller.put(
-    "/actualizar-reactor/{identificador}",
+@actualizar_producto_controller.put(
+    "/actualizar-producto/{identificador}",
     status_code=200,
-    response_model=ReactorCollection,
+    response_model=productoCollection,
     response_model_by_alias=False,
 )
-def actualizar_reactor(
-    response: Response, identificador: str, reactor: UpdateReactorModel
+def actualizar_producto(
+    response: Response, identificador: str, producto: UpdateproductoModel
 ):
-    """Actualiza la informacion correspondiente a un reactor en la base de datos.
+    """Actualiza la informacion correspondiente a un producto en la base de datos.
 
     Returns:
-        Si la informacion del reactor fue actualizada correctamente o no.
+        Si la informacion del producto fue actualizada correctamente o no.
 
         .. code-block:: python
 
@@ -37,7 +40,7 @@ def actualizar_reactor(
               'success': true,
               'data': {
                 'id': '6632967e003a94e8c87d5658',
-                'nombre_reactor': 'Isis PRUEBA ACTUALIZACION',
+                'nombre_producto': 'Isis PRUEBA ACTUALIZACION',
                 'pais': 'France',
                 'ciudad': 'Gif-sur-Yvette',
                 'tipo': 'POOL',
@@ -49,7 +52,7 @@ def actualizar_reactor(
 
     """
     success = None
-    data = ReactorModel()
+    data = productoModel()
     status_code = 200
     message = None
 
@@ -57,29 +60,29 @@ def actualizar_reactor(
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with ReactorService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.get_by_id(identificador)
+        with ProductoService(cursor=cursor) as producto_service:
+            data = producto_service.productoes_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.reactores_repository.update(
-                    identificador, reactor
+                data = producto_service.productoes_repository.update(
+                    identificador, producto
                 )
                 message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:
-                message = f"Reactor {identificador} no encontrado"
+                message = f"producto {identificador} no encontrado"
                 status_code = 404
-                data = ReactorModel()
+                data = productoModel()
                 success = False
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = ReactorModel()
+        data = productoModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = productoCollection(success=success, msg=message, data=data)
 
     return respuesta

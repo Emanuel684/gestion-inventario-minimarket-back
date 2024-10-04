@@ -34,7 +34,7 @@ for root, dirs, files in os.walk("controllers"):
                 app.include_router(router)
 
 
-@app.get('/')
+@app.get("/")
 def hello_world():
     return "Hello,World"
 

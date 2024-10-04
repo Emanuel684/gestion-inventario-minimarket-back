@@ -13,9 +13,7 @@ from services.reactor_service import ReactorService
 eliminar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@eliminar_cuenta_controller.delete(
-    "/eliminar-cuenta/{identificador}", status_code=200
-)
+@eliminar_cuenta_controller.delete("/eliminar-cuenta/{identificador}", status_code=200)
 def eliminar_cuenta(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 

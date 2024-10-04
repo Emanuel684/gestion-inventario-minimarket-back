@@ -20,7 +20,10 @@ class UsuarioModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    nombre_reactor: str | int = None
+    nombre_completo: str | int = None
+    """Contiene la información generada por los endpoints."""
+
+    email: str | int = None
     """Contiene la información generada por los endpoints."""
 
     pais: str = None
@@ -30,15 +33,6 @@ class UsuarioModel(BaseModel):
     """Contiene la información generada por los endpoints."""
 
     tipo: str = None
-    """Contiene la información generada por los endpoints."""
-
-    potencia_termica: int | float = None
-    """Contiene la información generada por los endpoints."""
-
-    estado: str = None
-    """Contiene la información generada por los endpoints."""
-
-    fecha_primera_reaccion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
@@ -61,25 +55,19 @@ class UsuarioModel(BaseModel):
 
 class UpdateUsuarioModel(BaseModel):
 
-    nombre_reactor: str | int = None
+    nombre_completo: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: Optional[str] = None
+    email: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    ciudad: Optional[str] = None
+    pais: str = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: Optional[str] = None
+    ciudad: str = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: Optional[float] = None
-    """Contiene la información generada por los endpoints."""
-
-    estado: Optional[str] = None
-    """Contiene la información generada por los endpoints."""
-
-    fecha_primera_reaccion: Optional[str] = None
+    tipo: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
@@ -87,13 +75,13 @@ class UpdateUsuarioModel(BaseModel):
     )
 
 
-class ReactoresCollection(RespuestaEstandar):
+class UsuariosCollection(RespuestaEstandar):
 
     data: List[UsuarioModel] | None = None
     """Contiene la información generada por los endpoints."""
 
 
-class ReactorCollection(RespuestaEstandar):
+class UsuarioCollection(RespuestaEstandar):
 
     data: UsuarioModel = {}
     """Contiene la información generada por los endpoints."""

@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel
+from models.usuarios_model import UsuarioCollection, UsuarioModel
 from services.reactor_service import ReactorService
 
 crear_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
@@ -17,15 +17,15 @@ crear_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 @crear_cuenta_controller.post(
     "/crear-cuenta",
     status_code=status.HTTP_201_CREATED,
-    response_model=ReactorCollection,
+    response_model=UsuarioCollection,
 )
-def crear_cuenta(response: Response, reactor: ReactorModel):
+def crear_cuenta(response: Response, usuario: UsuarioModel):
     """Crea un reactor dada la informacion correspondiente al mismo.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        reactor: Informacion del reactor a crear en la base de datos
+        usuario: Informacion del reactor a crear en la base de datos
 
     Returns:
         Si el reactor fue creado exitosamente o no.

@@ -8,15 +8,15 @@ from fastapi import APIRouter, HTTPException, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from services.reactor_service import ReactorService
+from services.producto_service import ProductoService
 
-eliminar_reactor_controller = APIRouter(prefix="/productos", tags=["productos"])
+eliminar_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
 
 
-@eliminar_reactor_controller.delete(
-    "/eliminar-reactor/{identificador}", status_code=200
+@eliminar_producto_controller.delete(
+    "/eliminar-producto/{identificador}", status_code=200
 )
-def elimina_reactor(response: Response, identificador: str):
+def elimina_producto(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
     Args:
@@ -39,7 +39,7 @@ def elimina_reactor(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         data = "Reactor no eliminado correctamente"
-        with ReactorService(cursor=cursor) as reactor_service:
+        with ProductoService(cursor=cursor) as reactor_service:
             delete_result = reactor_service.reactores_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:

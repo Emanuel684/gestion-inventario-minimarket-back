@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel
+from models.usuarios_model import ReactorCollection, ReactorModel
 from services.reactor_service import ReactorService
 
 iniciar_sesion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
