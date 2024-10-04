@@ -11,16 +11,16 @@ from helpers.config import get_log
 from models.reactores_model import ReactoresCollection
 from services.reactor_service import ReactorService
 
-reactores_registrados_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
+actualizar_informacion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@reactores_registrados_controller.get(
-    "/reactores-registrados",
+@actualizar_informacion_controller.get(
+    "/actualizar_informacion",
     status_code=200,
     response_model=ReactoresCollection,
     response_model_by_alias=False,
 )
-def reactores_registrados(response: Response):
+def actualizar_informacion(response: Response):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:

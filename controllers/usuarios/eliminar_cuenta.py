@@ -10,13 +10,13 @@ from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
 from services.reactor_service import ReactorService
 
-eliminar_reactor_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
+eliminar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@eliminar_reactor_controller.delete(
-    "/eliminar-reactor/{identificador}", status_code=200
+@eliminar_cuenta_controller.delete(
+    "/eliminar-cuenta/{identificador}", status_code=200
 )
-def elimina_reactor(response: Response, identificador: str):
+def eliminar_cuenta(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
     Args:

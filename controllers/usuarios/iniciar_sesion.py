@@ -11,16 +11,16 @@ from helpers.config import get_log
 from models.reactores_model import ReactorCollection, ReactorModel
 from services.reactor_service import ReactorService
 
-reactor_identificador_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
+iniciar_sesion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@reactor_identificador_controller.get(
-    "/reactor-identificador/{identificador}",
+@iniciar_sesion_controller.get(
+    "/iniciar-sesion/{identificador}",
     status_code=200,
     response_model=ReactorCollection,
     response_model_by_alias=False,
 )
-def reactor_identificador(response: Response, identificador: str):
+def iniciar_sesion(response: Response, identificador: str):
     """Obtener informacion de un reactor registrado en la tabla REACTORES
         segun su ID.
 

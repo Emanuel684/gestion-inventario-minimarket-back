@@ -12,16 +12,16 @@ from helpers.config import get_log
 from models.reactores_model import ReactorCollection, ReactorModel, UpdateReactorModel
 from services.reactor_service import ReactorService
 
-actualizar_reactor_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
+recuperar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@actualizar_reactor_controller.put(
-    "/actualizar-reactor/{identificador}",
+@recuperar_cuenta_controller.put(
+    "/recuperar-cuenta/{identificador}",
     status_code=200,
     response_model=ReactorCollection,
     response_model_by_alias=False,
 )
-def actualizar_reactor(
+def recuperar_cuenta(
     response: Response, identificador: str, reactor: UpdateReactorModel
 ):
     """Actualiza la informacion correspondiente a un reactor en la base de datos.

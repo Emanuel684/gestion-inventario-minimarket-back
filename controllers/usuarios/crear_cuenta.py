@@ -11,15 +11,15 @@ from helpers.config import get_log
 from models.reactores_model import ReactorCollection, ReactorModel
 from services.reactor_service import ReactorService
 
-crear_reactor_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
+crear_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@crear_reactor_controller.post(
-    "/crear-reactor",
+@crear_cuenta_controller.post(
+    "/crear-cuenta",
     status_code=status.HTTP_201_CREATED,
     response_model=ReactorCollection,
 )
-def crear_reactor(response: Response, reactor: ReactorModel):
+def crear_cuenta(response: Response, reactor: ReactorModel):
     """Crea un reactor dada la informacion correspondiente al mismo.
 
     Args:
