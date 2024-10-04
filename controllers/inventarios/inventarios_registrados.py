@@ -70,7 +70,7 @@ def reactores_registrados(response: Response):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
         with ReactorService(cursor=cursor) as reactores_service:
-            data = reactores_service.reactores_repository.get_list()
+            data = reactores_service.inventarios_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:

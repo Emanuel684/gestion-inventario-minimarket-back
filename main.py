@@ -36,7 +36,7 @@ for root, dirs, files in os.walk("controllers"):
 
 @app.get("/")
 def hello_world():
-    return "Hello,World"
+    return "Bienvenido a Gestion Inventario MiniMarket"
 
 
 if __name__ == "__main__":

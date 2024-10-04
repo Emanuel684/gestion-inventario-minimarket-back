@@ -57,11 +57,9 @@ def actualizar_tienda(
         cursor = crear_cursor_mongo(conexion)
 
         with TiendaService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.get_by_id(identificador)
+            data = reactor_service.tiendas_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.reactores_repository.update(
-                    identificador, tienda
-                )
+                data = reactor_service.tiendas_repository.update(identificador, tienda)
                 message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:

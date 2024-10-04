@@ -59,7 +59,7 @@ def crear_tienda(response: Response, tienda: ReactorModel):
 
         data = {}
         with TiendaService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.add(tienda)
+            data = reactor_service.tiendas_repository.add(tienda)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

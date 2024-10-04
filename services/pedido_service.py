@@ -6,7 +6,7 @@ from typing import Callable
 from sqlmodel import Session
 
 # Own libraries
-from repositories.reactor_repositorie import ReactorRepository
+from repositories.pedido_repositorie import PedidoRepository
 from services.base_service import ServiceBase
 
 
@@ -21,5 +21,5 @@ class PedidoService(ServiceBase):
 
     def __enter__(self):
         self._cursor = self._cursor()
-        self.reactores_repository = ReactorRepository(self._cursor)
+        self.pedidos_repository = PedidoRepository(self._cursor)
         return super().__enter__()

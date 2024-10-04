@@ -60,7 +60,7 @@ def producto_identificador(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         with ProductoService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.get_by_id(identificador)
+            data = reactor_service.producto_repository.get_by_id(identificador)
             if data is None:
                 data = ReactorModel()
         message = "Se obtuvo el resultado exitosamente."

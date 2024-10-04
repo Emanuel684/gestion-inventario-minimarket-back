@@ -59,7 +59,7 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
 
         data = {}
         with ReactorService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.add(reactor)
+            data = reactor_service.inventarios_repository.add(reactor)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

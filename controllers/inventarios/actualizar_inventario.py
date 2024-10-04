@@ -59,9 +59,9 @@ def actualizar_inventario(
         cursor = crear_cursor_mongo(conexion)
 
         with InventarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.get_by_id(identificador)
+            data = reactor_service.inventarios_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.reactores_repository.update(
+                data = reactor_service.inventarios_repository.update(
                     identificador, inventario
                 )
                 message = "Se obtuvo el resultado exitosamente."
