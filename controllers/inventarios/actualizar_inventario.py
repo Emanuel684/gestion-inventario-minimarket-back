@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para actualiza un reactor y la informacion asociado a este
+"""Modulo con el endpoint para actualiza un inventario y la informacion asociado a este
     segun su identificador."""
 
 # External libraries
@@ -9,25 +9,27 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel, UpdateReactorModel
-from services.reactor_service import ReactorService
+from models.inventarios_model import ReactorCollection, ReactorModel, UpdateReactorModel
+from services.inventario_service import InventarioService
 
-actualizar_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
+actualizar_inventario_controller = APIRouter(
+    prefix="/inventarios", tags=["inventarios"]
+)
 
 
-@actualizar_reactor_controller.put(
-    "/actualizar-reactor/{identificador}",
+@actualizar_inventario_controller.put(
+    "/actualizar-inventario/{identificador}",
     status_code=200,
     response_model=ReactorCollection,
     response_model_by_alias=False,
 )
-def actualizar_reactor(
-    response: Response, identificador: str, reactor: UpdateReactorModel
+def actualizar_inventario(
+    response: Response, identificador: str, inventario: UpdateReactorModel
 ):
-    """Actualiza la informacion correspondiente a un reactor en la base de datos.
+    """Actualiza la informacion correspondiente a un inventario en la base de datos.
 
     Returns:
-        Si la informacion del reactor fue actualizada correctamente o no.
+        Si la informacion del inventario fue actualizada correctamente o no.
 
         .. code-block:: python
 
@@ -56,16 +58,16 @@ def actualizar_reactor(
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with ReactorService(cursor=cursor) as reactor_service:
+        with InventarioService(cursor=cursor) as reactor_service:
             data = reactor_service.reactores_repository.get_by_id(identificador)
             if data is not None:
                 data = reactor_service.reactores_repository.update(
-                    identificador, reactor
+                    identificador, inventario
                 )
                 message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:
-                message = f"Reactor {identificador} no encontrado"
+                message = f"inventario {identificador} no encontrado"
                 status_code = 404
                 data = ReactorModel()
                 success = False

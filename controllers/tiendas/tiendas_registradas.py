@@ -8,19 +8,19 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactoresCollection
-from services.reactor_service import ReactorService
+from models.tiendas_model import ReactoresCollection
+from services.tienda_service import TiendaService
 
-reactores_registrados_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
+tiendas_registradas_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 
 
-@reactores_registrados_controller.get(
-    "/reactores-registrados",
+@tiendas_registradas_controller.get(
+    "/tiendas-registradas",
     status_code=200,
     response_model=ReactoresCollection,
     response_model_by_alias=False,
 )
-def reactores_registrados(response: Response):
+def tiendas_registradas(response: Response):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:
@@ -67,7 +67,7 @@ def reactores_registrados(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with ReactorService(cursor=cursor) as reactores_service:
+        with TiendaService(cursor=cursor) as reactores_service:
             data = reactores_service.reactores_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True

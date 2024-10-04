@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para crear un reactor y la informacion asociado a este"""
+"""Modulo con el endpoint para crear un tienda y la informacion asociado a este"""
 
 # External libraries
 import traceback
@@ -8,27 +8,27 @@ from fastapi import APIRouter, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel
-from services.reactor_service import ReactorService
+from models.tiendas_model import ReactorCollection, ReactorModel
+from services.tienda_service import TiendaService
 
-crear_reactor_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
+crear_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 
 
-@crear_reactor_controller.post(
-    "/crear-reactor",
+@crear_tienda_controller.post(
+    "/crear-tienda",
     status_code=status.HTTP_201_CREATED,
     response_model=ReactorCollection,
 )
-def crear_reactor(response: Response, reactor: ReactorModel):
-    """Crea un reactor dada la informacion correspondiente al mismo.
+def crear_tienda(response: Response, tienda: ReactorModel):
+    """Crea un tienda dada la informacion correspondiente al mismo.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        reactor: Informacion del reactor a crear en la base de datos
+        tienda: Informacion del tienda a crear en la base de datos
 
     Returns:
-        Si el reactor fue creado exitosamente o no.
+        Si el tienda fue creado exitosamente o no.
 
         .. code-block:: python
 
@@ -37,7 +37,7 @@ def crear_reactor(response: Response, reactor: ReactorModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'REACTOR',
+                'nombre_reactor': 'tienda',
                 'pais': 'Democratic Republic of the Congo',
                 'ciudad': 'Kinshasa',
                 'tipo': 'TRIGA MARK II',
@@ -58,8 +58,8 @@ def crear_reactor(response: Response, reactor: ReactorModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with ReactorService(cursor=cursor) as reactor_service:
-            data = reactor_service.reactores_repository.add(reactor)
+        with TiendaService(cursor=cursor) as reactor_service:
+            data = reactor_service.reactores_repository.add(tienda)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

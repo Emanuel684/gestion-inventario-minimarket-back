@@ -8,19 +8,19 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel
-from services.reactor_service import ReactorService
+from models.tiendas_model import ReactorModel, TiendaCollection
+from services.tienda_service import TiendaService
 
-reactor_identificador_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
+tienda_identificador_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 
 
-@reactor_identificador_controller.get(
-    "/reactor-identificador/{identificador}",
+@tienda_identificador_controller.get(
+    "/tienda-identificador/{identificador}",
     status_code=200,
-    response_model=ReactorCollection,
+    response_model=TiendaCollection,
     response_model_by_alias=False,
 )
-def reactor_identificador(response: Response, identificador: str):
+def tienda_identificador(response: Response, identificador: str):
     """Obtener informacion de un reactor registrado en la tabla REACTORES
         segun su ID.
 
@@ -59,7 +59,7 @@ def reactor_identificador(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with ReactorService(cursor=cursor) as reactor_service:
+        with TiendaService(cursor=cursor) as reactor_service:
             data = reactor_service.reactores_repository.get_by_id(identificador)
             if data is None:
                 data = ReactorModel()
@@ -75,6 +75,6 @@ def reactor_identificador(response: Response, identificador: str):
         status_code = 500
     finally:
         response.status_code = status_code
-        res = ReactorCollection(success=success, msg=message, data=data)
+        res = TiendaCollection(success=success, msg=message, data=data)
 
     return res
