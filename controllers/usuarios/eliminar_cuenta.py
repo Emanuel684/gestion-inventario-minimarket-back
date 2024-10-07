@@ -36,12 +36,12 @@ def eliminar_cuenta(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        data = "Reactor no eliminado correctamente"
+        data = "Usuario no eliminado correctamente"
         with UsuarioService(cursor=cursor) as reactor_service:
             delete_result = reactor_service.inventarios_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
-            raise HTTPException(status_code=404, detail=f"Student {id} not found")
+            raise HTTPException(status_code=404, detail=f"User {id} not found")
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())

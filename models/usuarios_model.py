@@ -26,6 +26,9 @@ class UsuarioModel(BaseModel):
     email: str | int = None
     """Contiene la información generada por los endpoints."""
 
+    password: str | int = None
+    """Contiene la información generada por los endpoints."""
+
     pais: str = None
     """Contiene la información generada por los endpoints."""
 
@@ -35,19 +38,25 @@ class UsuarioModel(BaseModel):
     tipo: str = None
     """Contiene la información generada por los endpoints."""
 
+    fecha_creacion: Optional[str] = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: Optional[str] = None
+    """Contiene la información generada por los endpoints."""
+
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         json_encoders={ObjectId: str},
         json_schema_extra={
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
-                "nombre_reactor": "Isis",
-                "pais": "France",
-                "ciudad": "Gif-sur-Yvette",
-                "tipo": "POOL",
-                "potencia_termica": 700,
-                "estado": "UNDER DECOMMISSIONING",
-                "fecha_primera_reaccion": "1966-04-28T00:00:00",
+                "nombre_completo": "Emanuel Acevedo",
+                "email": "emanuelacag@gmail.com",
+                "pais": "Colombia",
+                "ciudad": "Medellín",
+                "tipo": "cliente",
+                "fecha_creacion": "1966-04-28T00:00:00",
+                "fecha_actualizacion": "1966-04-28T00:00:00",
             }
         },
     )
@@ -61,6 +70,9 @@ class UpdateUsuarioModel(BaseModel):
     email: str | int = None
     """Contiene la información generada por los endpoints."""
 
+    password: str | int = None
+    """Contiene la información generada por los endpoints."""
+
     pais: str = None
     """Contiene la información generada por los endpoints."""
 
@@ -68,6 +80,9 @@ class UpdateUsuarioModel(BaseModel):
     """Contiene la información generada por los endpoints."""
 
     tipo: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(

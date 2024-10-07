@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para crear un reactor y la informacion asociado a este"""
+"""Modulo con el endpoint para crear un usuario y la informacion asociado a este"""
 
 # External libraries
 import traceback
@@ -20,15 +20,15 @@ crear_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
     response_model=UsuarioCollection,
 )
 def crear_cuenta(response: Response, usuario: UsuarioModel):
-    """Crea un reactor dada la informacion correspondiente al mismo.
+    """Crea un usuario dada la informacion correspondiente al mismo.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        usuario: Informacion del reactor a crear en la base de datos
+        usuario: Informacion del usuario a crear en la base de datos
 
     Returns:
-        Si el reactor fue creado exitosamente o no.
+        Si el usuario fue creado exitosamente o no.
 
         .. code-block:: python
 
@@ -37,7 +37,7 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'REACTOR',
+                'nombre_reactor': 'usuario',
                 'pais': 'Democratic Republic of the Congo',
                 'ciudad': 'Kinshasa',
                 'tipo': 'TRIGA MARK II',
@@ -59,7 +59,7 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
 
         data = {}
         with UsuarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.add(reactor)
+            data = reactor_service.inventarios_repository.add(usuario)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True
@@ -73,6 +73,6 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = UsuarioCollection(success=success, msg=message, data=data)
 
     return respuesta
