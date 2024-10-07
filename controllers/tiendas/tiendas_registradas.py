@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.tiendas_model import ReactoresCollection
+from models.tiendas_model import TiendasCollection
 from services.tienda_service import TiendaService
 
 tiendas_registradas_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
@@ -17,7 +17,7 @@ tiendas_registradas_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 @tiendas_registradas_controller.get(
     "/tiendas-registradas",
     status_code=200,
-    response_model=ReactoresCollection,
+    response_model=TiendasCollection,
     response_model_by_alias=False,
 )
 def tiendas_registradas(response: Response):
@@ -81,6 +81,6 @@ def tiendas_registradas(response: Response):
         status_code = 500
     finally:
         response.status_code = status_code
-        res = ReactoresCollection(data=data, success=success, msg=message)
+        res = TiendasCollection(data=data, success=success, msg=message)
 
     return res

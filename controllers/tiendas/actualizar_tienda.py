@@ -9,7 +9,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.tiendas_model import ReactorCollection, ReactorModel, UpdateReactorModel
+from models.tiendas_model import TiendaCollection, TiendaModel, UpdateTiendaModel
 from services.tienda_service import TiendaService
 
 actualizar_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
@@ -18,11 +18,11 @@ actualizar_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 @actualizar_tienda_controller.put(
     "/actualizar-tienda/{identificador}",
     status_code=200,
-    response_model=ReactorCollection,
+    response_model=TiendaCollection,
     response_model_by_alias=False,
 )
 def actualizar_tienda(
-    response: Response, identificador: str, tienda: UpdateReactorModel
+    response: Response, identificador: str, tienda: UpdateTiendaModel
 ):
     """Actualiza la informacion correspondiente a un tienda en la base de datos.
 
@@ -48,7 +48,7 @@ def actualizar_tienda(
 
     """
     success = None
-    data = ReactorModel()
+    data = TiendaModel()
     status_code = 200
     message = None
 
@@ -65,18 +65,18 @@ def actualizar_tienda(
             else:
                 message = f"tienda {identificador} no encontrado"
                 status_code = 404
-                data = ReactorModel()
+                data = TiendaModel()
                 success = False
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = ReactorModel()
+        data = TiendaModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = TiendaCollection(success=success, msg=message, data=data)
 
     return respuesta

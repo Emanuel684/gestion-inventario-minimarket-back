@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.tiendas_model import ReactorCollection, ReactorModel
+from models.tiendas_model import TiendaCollection, TiendaModel
 from services.tienda_service import TiendaService
 
 crear_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
@@ -17,9 +17,9 @@ crear_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 @crear_tienda_controller.post(
     "/crear-tienda",
     status_code=status.HTTP_201_CREATED,
-    response_model=ReactorCollection,
+    response_model=TiendaCollection,
 )
-def crear_tienda(response: Response, tienda: ReactorModel):
+def crear_tienda(response: Response, tienda: TiendaModel):
     """Crea un tienda dada la informacion correspondiente al mismo.
 
     Args:
@@ -73,6 +73,6 @@ def crear_tienda(response: Response, tienda: ReactorModel):
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = TiendaCollection(success=success, msg=message, data=data)
 
     return respuesta

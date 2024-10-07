@@ -87,13 +87,13 @@ class UpdateTiendaModel(BaseModel):
     )
 
 
-class ReactoresCollection(RespuestaEstandar):
+class TiendasCollection(RespuestaEstandar):
 
     data: List[TiendaModel] | None = None
     """Contiene la información generada por los endpoints."""
 
 
-class ReactorCollection(RespuestaEstandar):
+class TiendaCollection(RespuestaEstandar):
 
     data: TiendaModel = {}
     """Contiene la información generada por los endpoints."""

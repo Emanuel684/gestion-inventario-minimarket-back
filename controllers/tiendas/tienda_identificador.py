@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.tiendas_model import ReactorModel, TiendaCollection
+from models.tiendas_model import TiendaCollection, TiendaModel
 from services.tienda_service import TiendaService
 
 tienda_identificador_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
@@ -51,7 +51,7 @@ def tienda_identificador(response: Response, identificador: str):
 
     """
     success = None
-    data = ReactorModel()
+    data = TiendaModel()
     status_code = 200
     message = None
 
@@ -62,14 +62,14 @@ def tienda_identificador(response: Response, identificador: str):
         with TiendaService(cursor=cursor) as reactor_service:
             data = reactor_service.tiendas_repository.get_by_id(identificador)
             if data is None:
-                data = ReactorModel()
+                data = TiendaModel()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = ReactorModel()
+        data = TiendaModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
