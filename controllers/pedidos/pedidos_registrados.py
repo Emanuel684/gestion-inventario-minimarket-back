@@ -8,8 +8,8 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactoresCollection
-from services.reactor_service import ReactorService
+from models.pedidos_model import PedidosCollection
+from services.pedido_service import PedidoService
 
 reactores_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
@@ -17,7 +17,7 @@ reactores_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"]
 @reactores_registrados_controller.get(
     "/reactores-registrados",
     status_code=200,
-    response_model=ReactoresCollection,
+    response_model=PedidosCollection,
     response_model_by_alias=False,
 )
 def reactores_registrados(response: Response):
@@ -67,7 +67,7 @@ def reactores_registrados(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with ReactorService(cursor=cursor) as reactores_service:
+        with PedidoService(cursor=cursor) as reactores_service:
             data = reactores_service.inventarios_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
@@ -81,6 +81,6 @@ def reactores_registrados(response: Response):
         status_code = 500
     finally:
         response.status_code = status_code
-        res = ReactoresCollection(data=data, success=success, msg=message)
+        res = PedidosCollection(data=data, success=success, msg=message)
 
     return res

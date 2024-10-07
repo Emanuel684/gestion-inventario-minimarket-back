@@ -8,8 +8,8 @@ from fastapi import APIRouter, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.reactores_model import ReactorCollection, ReactorModel
-from services.reactor_service import ReactorService
+from models.pedidos_model import PedidoCollection, PedidoModel
+from services.pedido_service import PedidoService
 
 crear_reactor_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
@@ -17,9 +17,9 @@ crear_reactor_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 @crear_reactor_controller.post(
     "/crear-reactor",
     status_code=status.HTTP_201_CREATED,
-    response_model=ReactorCollection,
+    response_model=PedidoCollection,
 )
-def crear_reactor(response: Response, reactor: ReactorModel):
+def crear_reactor(response: Response, reactor: PedidoModel):
     """Crea un reactor dada la informacion correspondiente al mismo.
 
     Args:
@@ -58,7 +58,7 @@ def crear_reactor(response: Response, reactor: ReactorModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with ReactorService(cursor=cursor) as reactor_service:
+        with PedidoService(cursor=cursor) as reactor_service:
             data = reactor_service.inventarios_repository.add(reactor)
 
         message = "Se obtuvo el resultado exitosamente."
@@ -73,6 +73,6 @@ def crear_reactor(response: Response, reactor: ReactorModel):
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = PedidoCollection(success=success, msg=message, data=data)
 
     return respuesta
