@@ -8,8 +8,8 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.usuarios_model import ReactoresCollection
-from services.reactor_service import ReactorService
+from models.usuarios_model import UsuariosCollection
+from services.usuario_service import UsuarioService
 
 actualizar_informacion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
@@ -17,7 +17,7 @@ actualizar_informacion_controller = APIRouter(prefix="/usuarios", tags=["usuario
 @actualizar_informacion_controller.get(
     "/actualizar_informacion",
     status_code=200,
-    response_model=ReactoresCollection,
+    response_model=UsuariosCollection,
     response_model_by_alias=False,
 )
 def actualizar_informacion(response: Response):
@@ -67,7 +67,7 @@ def actualizar_informacion(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with ReactorService(cursor=cursor) as reactores_service:
+        with UsuarioService(cursor=cursor) as reactores_service:
             data = reactores_service.inventarios_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
@@ -81,6 +81,6 @@ def actualizar_informacion(response: Response):
         status_code = 500
     finally:
         response.status_code = status_code
-        res = ReactoresCollection(data=data, success=success, msg=message)
+        res = UsuariosCollection(data=data, success=success, msg=message)
 
     return res

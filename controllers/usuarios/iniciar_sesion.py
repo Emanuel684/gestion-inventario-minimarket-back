@@ -8,8 +8,8 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.usuarios_model import ReactorCollection, ReactorModel
-from services.reactor_service import ReactorService
+from models.usuarios_model import UsuarioCollection, UsuarioModel
+from services.usuario_service import UsuarioService
 
 iniciar_sesion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
@@ -17,7 +17,7 @@ iniciar_sesion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 @iniciar_sesion_controller.get(
     "/iniciar-sesion/{identificador}",
     status_code=200,
-    response_model=ReactorCollection,
+    response_model=UsuarioCollection,
     response_model_by_alias=False,
 )
 def iniciar_sesion(response: Response, identificador: str):
@@ -51,7 +51,7 @@ def iniciar_sesion(response: Response, identificador: str):
 
     """
     success = None
-    data = ReactorModel()
+    data = UsuarioModel()
     status_code = 200
     message = None
 
@@ -59,22 +59,22 @@ def iniciar_sesion(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with ReactorService(cursor=cursor) as reactor_service:
+        with UsuarioService(cursor=cursor) as reactor_service:
             data = reactor_service.inventarios_repository.get_by_id(identificador)
             if data is None:
-                data = ReactorModel()
+                data = UsuarioModel()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = ReactorModel()
+        data = UsuarioModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
         response.status_code = status_code
-        res = ReactorCollection(success=success, msg=message, data=data)
+        res = UsuarioCollection(success=success, msg=message, data=data)
 
     return res

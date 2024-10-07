@@ -9,7 +9,7 @@ from fastapi import APIRouter, Response, status
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
 from models.usuarios_model import UsuarioCollection, UsuarioModel
-from services.reactor_service import ReactorService
+from services.usuario_service import UsuarioService
 
 crear_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
@@ -58,7 +58,7 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with ReactorService(cursor=cursor) as reactor_service:
+        with UsuarioService(cursor=cursor) as reactor_service:
             data = reactor_service.inventarios_repository.add(reactor)
 
         message = "Se obtuvo el resultado exitosamente."
