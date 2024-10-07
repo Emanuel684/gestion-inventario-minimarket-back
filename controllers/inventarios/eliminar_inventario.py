@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from services.reactor_service import ReactorService
+from services.inventario_service import InventarioService
 
 eliminar_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
@@ -39,7 +39,7 @@ def elimina_reactor(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         data = "Reactor no eliminado correctamente"
-        with ReactorService(cursor=cursor) as reactor_service:
+        with InventarioService(cursor=cursor) as reactor_service:
             delete_result = reactor_service.inventarios_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:

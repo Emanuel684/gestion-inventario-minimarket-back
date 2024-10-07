@@ -9,7 +9,11 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.inventarios_model import ReactorCollection, ReactorModel, UpdateReactorModel
+from models.inventarios_model import (
+    InventarioCollection,
+    InventarioModel,
+    UpdateInventarioModel,
+)
 from services.inventario_service import InventarioService
 
 actualizar_inventario_controller = APIRouter(
@@ -20,11 +24,11 @@ actualizar_inventario_controller = APIRouter(
 @actualizar_inventario_controller.put(
     "/actualizar-inventario/{identificador}",
     status_code=200,
-    response_model=ReactorCollection,
+    response_model=InventarioCollection,
     response_model_by_alias=False,
 )
 def actualizar_inventario(
-    response: Response, identificador: str, inventario: UpdateReactorModel
+    response: Response, identificador: str, inventario: UpdateInventarioModel
 ):
     """Actualiza la informacion correspondiente a un inventario en la base de datos.
 
@@ -50,7 +54,7 @@ def actualizar_inventario(
 
     """
     success = None
-    data = ReactorModel()
+    data = InventarioModel()
     status_code = 200
     message = None
 
@@ -69,18 +73,18 @@ def actualizar_inventario(
             else:
                 message = f"inventario {identificador} no encontrado"
                 status_code = 404
-                data = ReactorModel()
+                data = InventarioModel()
                 success = False
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = ReactorModel()
+        data = InventarioModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = ReactorCollection(success=success, msg=message, data=data)
+        respuesta = InventarioCollection(success=success, msg=message, data=data)
 
     return respuesta

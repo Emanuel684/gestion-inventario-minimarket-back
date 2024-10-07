@@ -18,7 +18,6 @@ def crear_mongo_conexion() -> MongoClient:
     """
     setting = Settings()
 
-    # client = MongoClient(setting.database_connection_str)
     client = MongoClient(setting.database_connection_str, tlsCAFile=certifi.where())
     return client
 
