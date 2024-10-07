@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para actualiza un reactor y la informacion asociado a este
+"""Modulo con el endpoint para actualiza un pedido y la informacion asociado a este
     segun su identificador."""
 
 # External libraries
@@ -12,22 +12,20 @@ from helpers.config import get_log
 from models.pedidos_model import PedidoCollection, PedidoModel, UpdatePedidoModel
 from services.pedido_service import PedidoService
 
-actualizar_reactor_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
+actualizar_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
-@actualizar_reactor_controller.put(
-    "/actualizar-reactor/{identificador}",
+@actualizar_pedido_controller.put(
+    "/actualizar-pedido/{identificador}",
     status_code=200,
     response_model=PedidoCollection,
     response_model_by_alias=False,
 )
-def actualizar_reactor(
-    response: Response, identificador: str, reactor: UpdatePedidoModel
-):
-    """Actualiza la informacion correspondiente a un reactor en la base de datos.
+def pedido_reactor(response: Response, identificador: str, pedido: UpdatePedidoModel):
+    """Actualiza la informacion correspondiente a un pedido en la base de datos.
 
     Returns:
-        Si la informacion del reactor fue actualizada correctamente o no.
+        Si la informacion del pedido fue actualizada correctamente o no.
 
         .. code-block:: python
 
@@ -60,12 +58,12 @@ def actualizar_reactor(
             data = reactor_service.inventarios_repository.get_by_id(identificador)
             if data is not None:
                 data = reactor_service.inventarios_repository.update(
-                    identificador, reactor
+                    identificador, pedido
                 )
                 message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:
-                message = f"Reactor {identificador} no encontrado"
+                message = f"pedido {identificador} no encontrado"
                 status_code = 404
                 data = PedidoModel()
                 success = False

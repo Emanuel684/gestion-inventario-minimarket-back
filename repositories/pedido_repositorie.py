@@ -8,7 +8,7 @@ from bson import ObjectId
 from pymongo import ReturnDocument
 from sqlmodel import Session
 
-from models.reactores_model import ReactorModel
+from models.pedidos_model import PedidoModel
 
 
 class PedidoRepository(ABC):
@@ -84,11 +84,11 @@ class PedidoRepository(ABC):
         respuesta = list(reactores)
         return respuesta
 
-    def add(self, record: ReactorModel) -> dict:
+    def add(self, record: PedidoModel) -> dict:
         """Crea un nuevo registro en la coreccion de reactores
 
         Args:
-            record (ReactorModel): informacion del reactor a agregar a la colleccion
+            record (PedidoModel): informacion del reactor a agregar a la colleccion
 
         Returns:
             Informacion del reactor agregado
@@ -117,12 +117,12 @@ class PedidoRepository(ABC):
 
         return reactor_creado
 
-    def update(self, identificador: str, record: ReactorModel) -> dict:
+    def update(self, identificador: str, record: PedidoModel) -> dict:
         """Actualiza informacion de un reactor segun su identificador.
 
         Args:
             identificador (str): Identificador del reactor a actualizar informacion.
-            record (ReactorModel): Informacion que se actualizara del registro.
+            record (PedidoModel): Informacion que se actualizara del registro.
 
         Returns:
             Informacion del reactor actualizado

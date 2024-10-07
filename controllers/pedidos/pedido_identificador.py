@@ -11,16 +11,16 @@ from helpers.config import get_log
 from models.pedidos_model import PedidoCollection, PedidoModel
 from services.pedido_service import PedidoService
 
-reactor_identificador_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
+pedido_identificador_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
-@reactor_identificador_controller.get(
+@pedido_identificador_controller.get(
     "/reactor-identificador/{identificador}",
     status_code=200,
     response_model=PedidoCollection,
     response_model_by_alias=False,
 )
-def reactor_identificador(response: Response, identificador: str):
+def pedido_identificador(response: Response, identificador: str):
     """Obtener informacion de un reactor registrado en la tabla REACTORES
         segun su ID.
 

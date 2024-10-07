@@ -10,13 +10,11 @@ from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
 from services.pedido_service import PedidoService
 
-eliminar_reactor_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
+eliminar_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
-@eliminar_reactor_controller.delete(
-    "/eliminar-reactor/{identificador}", status_code=200
-)
-def elimina_reactor(response: Response, identificador: str):
+@eliminar_pedido_controller.delete("/eliminar-pedido/{identificador}", status_code=200)
+def elimina_pedido(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
     Args:

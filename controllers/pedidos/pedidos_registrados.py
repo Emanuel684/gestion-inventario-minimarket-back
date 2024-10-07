@@ -11,16 +11,16 @@ from helpers.config import get_log
 from models.pedidos_model import PedidosCollection
 from services.pedido_service import PedidoService
 
-reactores_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
+pedidos_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
-@reactores_registrados_controller.get(
+@pedidos_registrados_controller.get(
     "/reactores-registrados",
     status_code=200,
     response_model=PedidosCollection,
     response_model_by_alias=False,
 )
-def reactores_registrados(response: Response):
+def pedidos_registrados(response: Response):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:

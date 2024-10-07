@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para crear un reactor y la informacion asociado a este"""
+"""Modulo con el endpoint para crear un inventario y la informacion asociado a este"""
 
 # External libraries
 import traceback
@@ -11,24 +11,24 @@ from helpers.config import get_log
 from models.inventarios_model import InventarioCollection, InventarioModel
 from services.inventario_service import InventarioService
 
-crear_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
+crear_inventario_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
 
-@crear_reactor_controller.post(
-    "/crear-reactor",
+@crear_inventario_controller.post(
+    "/crear-inventario",
     status_code=status.HTTP_201_CREATED,
     response_model=InventarioCollection,
 )
-def crear_reactor(response: Response, reactor: InventarioModel):
-    """Crea un reactor dada la informacion correspondiente al mismo.
+def crear_inventario(response: Response, inventario: InventarioModel):
+    """Crea un inventario dada la informacion correspondiente al mismo.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        reactor: Informacion del reactor a crear en la base de datos
+        inventario: Informacion del inventario a crear en la base de datos
 
     Returns:
-        Si el reactor fue creado exitosamente o no.
+        Si el inventario fue creado exitosamente o no.
 
         .. code-block:: python
 
@@ -37,7 +37,7 @@ def crear_reactor(response: Response, reactor: InventarioModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'REACTOR',
+                'nombre_reactor': 'inventario',
                 'pais': 'Democratic Republic of the Congo',
                 'ciudad': 'Kinshasa',
                 'tipo': 'TRIGA MARK II',
@@ -59,7 +59,7 @@ def crear_reactor(response: Response, reactor: InventarioModel):
 
         data = {}
         with InventarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.add(reactor)
+            data = reactor_service.inventarios_repository.add(inventario)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

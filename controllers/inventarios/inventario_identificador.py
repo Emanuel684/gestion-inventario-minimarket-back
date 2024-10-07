@@ -11,19 +11,19 @@ from helpers.config import get_log
 from models.inventarios_model import InventarioCollection, InventarioModel
 from services.inventario_service import InventarioService
 
-reactor_identificador_controller = APIRouter(
+inventario_identificador_controller = APIRouter(
     prefix="/inventarios", tags=["inventarios"]
 )
 
 
-@reactor_identificador_controller.get(
-    "/reactor-identificador/{identificador}",
+@inventario_identificador_controller.get(
+    "/inventario-identificador/{identificador}",
     status_code=200,
     response_model=InventarioCollection,
     response_model_by_alias=False,
 )
-def reactor_identificador(response: Response, identificador: str):
-    """Obtener informacion de un reactor registrado en la tabla REACTORES
+def inventario_identificador(response: Response, identificador: str):
+    """Obtener informacion de un reactor registrado en la tabla Inventario
         segun su ID.
 
     Args:

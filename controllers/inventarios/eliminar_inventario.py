@@ -10,13 +10,13 @@ from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
 from services.inventario_service import InventarioService
 
-eliminar_reactor_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
+eliminar_inventario_controller = APIRouter(prefix="/inventarios", tags=["inventarios"])
 
 
-@eliminar_reactor_controller.delete(
-    "/eliminar-reactor/{identificador}", status_code=200
+@eliminar_inventario_controller.delete(
+    "/eliminar-inventario/{identificador}", status_code=200
 )
-def elimina_reactor(response: Response, identificador: str):
+def elimina_inventario(response: Response, identificador: str):
     """Elimina un registro correspondiente a un reactor en la base de datos
 
     Args:

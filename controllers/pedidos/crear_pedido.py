@@ -11,15 +11,15 @@ from helpers.config import get_log
 from models.pedidos_model import PedidoCollection, PedidoModel
 from services.pedido_service import PedidoService
 
-crear_reactor_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
+crear_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
-@crear_reactor_controller.post(
-    "/crear-reactor",
+@crear_pedido_controller.post(
+    "/crear-pedido",
     status_code=status.HTTP_201_CREATED,
     response_model=PedidoCollection,
 )
-def crear_reactor(response: Response, reactor: PedidoModel):
+def crear_pedido(response: Response, reactor: PedidoModel):
     """Crea un reactor dada la informacion correspondiente al mismo.
 
     Args:

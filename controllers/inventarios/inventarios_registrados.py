@@ -11,18 +11,18 @@ from helpers.config import get_log
 from models.inventarios_model import InventariosCollection
 from services.inventario_service import InventarioService
 
-reactores_registrados_controller = APIRouter(
+inventarios_registrados_controller = APIRouter(
     prefix="/inventarios", tags=["inventarios"]
 )
 
 
-@reactores_registrados_controller.get(
-    "/reactores-registrados",
+@inventarios_registrados_controller.get(
+    "/inventarios-registrados",
     status_code=200,
     response_model=InventariosCollection,
     response_model_by_alias=False,
 )
-def reactores_registrados(response: Response):
+def inventarios_registrados(response: Response):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:
