@@ -87,13 +87,13 @@ class UpdateProductoModel(BaseModel):
     )
 
 
-class ReactoresCollection(RespuestaEstandar):
+class ProductosCollection(RespuestaEstandar):
 
     data: List[ProductoModel] | None = None
     """Contiene la información generada por los endpoints."""
 
 
-class ReactorCollection(RespuestaEstandar):
+class ProductoCollection(RespuestaEstandar):
 
     data: ProductoModel = {}
     """Contiene la información generada por los endpoints."""

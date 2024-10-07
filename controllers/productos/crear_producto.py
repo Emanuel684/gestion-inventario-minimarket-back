@@ -8,7 +8,7 @@ from fastapi import APIRouter, Response, status
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.productos_model import productoCollection, productoModel
+from models.productos_model import ProductoCollection, ProductoModel
 from services.producto_service import ProductoService
 
 crear_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
@@ -17,9 +17,9 @@ crear_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
 @crear_producto_controller.post(
     "/crear-producto",
     status_code=status.HTTP_201_CREATED,
-    response_model=productoCollection,
+    response_model=ProductoCollection,
 )
-def crear_producto(response: Response, producto: productoModel):
+def crear_producto(response: Response, producto: ProductoModel):
     """Crea un producto dada la informacion correspondiente al mismo.
 
     Args:
@@ -73,6 +73,6 @@ def crear_producto(response: Response, producto: productoModel):
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = productoCollection(success=success, msg=message, data=data)
+        respuesta = ProductoCollection(success=success, msg=message, data=data)
 
     return respuesta

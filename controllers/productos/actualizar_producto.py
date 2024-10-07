@@ -9,8 +9,11 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.productos_model import (UpdateproductoModel, productoCollection,
-                                    productoModel)
+from models.productos_model import (
+    ProductoCollection,
+    ProductoModel,
+    UpdateProductoModel,
+)
 from services.producto_service import ProductoService
 
 actualizar_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
@@ -19,11 +22,11 @@ actualizar_producto_controller = APIRouter(prefix="/productos", tags=["productos
 @actualizar_producto_controller.put(
     "/actualizar-producto/{identificador}",
     status_code=200,
-    response_model=productoCollection,
+    response_model=ProductoCollection,
     response_model_by_alias=False,
 )
 def actualizar_producto(
-    response: Response, identificador: str, producto: UpdateproductoModel
+    response: Response, identificador: str, producto: UpdateProductoModel
 ):
     """Actualiza la informacion correspondiente a un producto en la base de datos.
 
@@ -49,7 +52,7 @@ def actualizar_producto(
 
     """
     success = None
-    data = productoModel()
+    data = ProductoModel()
     status_code = 200
     message = None
 
@@ -68,18 +71,18 @@ def actualizar_producto(
             else:
                 message = f"producto {identificador} no encontrado"
                 status_code = 404
-                data = productoModel()
+                data = ProductoModel()
                 success = False
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
 
-        data = productoModel()
+        data = ProductoModel()
         message = "Error al obtener el resultado"
         success = False
         status_code = 500
     finally:
         response.status_code = status_code
-        respuesta = productoCollection(success=success, msg=message, data=data)
+        respuesta = ProductoCollection(success=success, msg=message, data=data)
 
     return respuesta
