@@ -7,10 +7,10 @@ class Settings:
 
     usuario = "usrapp"
     password = "DFpa4iYlArwRXpI0"
-    cluster = "clusterreactores.u82m331.mongodb.net"
+    cluster = "clusterminimarket.gqcd9.mongodb.net"
     database_connection_str = (
         f"mongodb+srv://{usuario}:{password}@{cluster}"
-        f"/?retryWrites=true&w=majority&appName=ClusterReactores&authMechanism=SCRAM-SHA-1"
+        f"/?retryWrites=true&w=majority&appName=ClusterMiniMarket&authMechanism=SCRAM-SHA-1"
     )
 
     class Config:
