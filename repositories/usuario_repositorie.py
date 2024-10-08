@@ -96,14 +96,15 @@ class UsuarioRepository(ABC):
             .. code-block:: python
 
                 {
-                    'id': '662d0d325363bbc93a0c027c',
-                    'nombre_usuario': 'SUR Hannover',
-                    'pais': 'Germany',
-                    'ciudad': 'Hannover',
-                    'tipo': 'HOMOG (S)',
-                    'potencia_termica': 0.001,
-                    'estado': 'DECOMMISSIONED',
-                    'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                    '_id': ObjectId('670555dceb7cebdfcf1ba320'),
+                    'nombre_completo': 'Emanuel Acevedo',
+                    'email': 'emanuelacag@gmail.com',
+                    'password': '1000306848',
+                    'pais': 'Colombia',
+                    'ciudad': 'Medellín',
+                    'tipo': 'cliente',
+                    'fecha_creacion': '1966-04-28T00:00:00',
+                    'fecha_actualizacion': '1966-04-28T00:00:00'
                 }
 
         """

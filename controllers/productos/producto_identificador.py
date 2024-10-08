@@ -59,8 +59,8 @@ def producto_identificador(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with ProductoService(cursor=cursor) as reactor_service:
-            data = reactor_service.producto_repository.get_by_id(identificador)
+        with ProductoService(cursor=cursor) as producto_service:
+            data = producto_service.productos_repository.get_by_id(identificador)
             if data is None:
                 data = ProductoModel()
         message = "Se obtuvo el resultado exitosamente."

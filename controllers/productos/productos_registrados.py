@@ -67,8 +67,8 @@ def productos_registrados(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with ProductoService(cursor=cursor) as reactores_service:
-            data = reactores_service.producto_repository.get_list()
+        with ProductoService(cursor=cursor) as producto_service:
+            data = producto_service.productos_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:

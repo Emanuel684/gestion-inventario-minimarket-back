@@ -38,9 +38,9 @@ def elimina_producto(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        data = "Reactor no eliminado correctamente"
-        with ProductoService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.producto_repository.delete(identificador)
+        data = "Producto no eliminado correctamente"
+        with ProductoService(cursor=cursor) as producto_service:
+            delete_result = producto_service.productos_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

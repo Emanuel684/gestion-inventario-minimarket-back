@@ -36,14 +36,15 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
               'msg': 'Se obtuvo el resultado exitosamente.',
               'success': true,
               'data': {
-                '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'usuario',
-                'pais': 'Democratic Republic of the Congo',
-                'ciudad': 'Kinshasa',
-                'tipo': 'TRIGA MARK II',
-                'potencia_termica': 15000,
-                'estado': 'EXTENDED SHUTDOWN',
-                'fecha_primera_reaccion': '1972-03-24T00:00:00'
+                '_id': ObjectId('670555dceb7cebdfcf1ba320'),
+                'nombre_completo': 'Emanuel Acevedo',
+                'email': 'emanuelacag@gmail.com',
+                'password': '1000306848',
+                'pais': 'Colombia',
+                'ciudad': 'Medellín',
+                'tipo': 'cliente',
+                'fecha_creacion': '1966-04-28T00:00:00',
+                'fecha_actualizacion': '1966-04-28T00:00:00'
               }
             }
 
@@ -73,7 +74,6 @@ def crear_cuenta(response: Response, usuario: UsuarioModel):
         status_code = 500
     finally:
         response.status_code = status_code
-        print("data: ", data)
         respuesta = UsuarioCollection(success=success, msg=message, data=data)
 
     return respuesta

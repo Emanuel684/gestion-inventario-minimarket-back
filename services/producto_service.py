@@ -21,5 +21,5 @@ class ProductoService(ServiceBase):
 
     def __enter__(self):
         self._cursor = self._cursor()
-        self.producto_repository = ProductoRepository(self._cursor)
+        self.productos_repository = ProductoRepository(self._cursor)
         return super().__enter__()

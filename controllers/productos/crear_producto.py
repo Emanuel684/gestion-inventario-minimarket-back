@@ -59,7 +59,7 @@ def crear_producto(response: Response, producto: ProductoModel):
 
         data = {}
         with ProductoService(cursor=cursor) as producto_service:
-            data = producto_service.productoes_repository.add(producto)
+            data = producto_service.productos_repository.add(producto)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

@@ -61,9 +61,9 @@ def actualizar_producto(
         cursor = crear_cursor_mongo(conexion)
 
         with ProductoService(cursor=cursor) as producto_service:
-            data = producto_service.productoes_repository.get_by_id(identificador)
+            data = producto_service.productos_repository.get_by_id(identificador)
             if data is not None:
-                data = producto_service.productoes_repository.update(
+                data = producto_service.productos_repository.update(
                     identificador, producto
                 )
                 message = "Se obtuvo el resultado exitosamente."
