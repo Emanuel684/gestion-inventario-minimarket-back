@@ -59,8 +59,8 @@ def iniciar_sesion(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with UsuarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.get_by_id(identificador)
+        with UsuarioService(cursor=cursor) as usuario_service:
+            data = usuario_service.usuarios_repository.get_by_id(identificador)
             if data is None:
                 data = UsuarioModel()
         message = "Se obtuvo el resultado exitosamente."

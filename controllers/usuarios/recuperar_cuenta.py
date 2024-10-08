@@ -9,8 +9,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.usuarios_model import (UpdateUsuarioModel, UsuarioCollection,
-                                   UsuarioModel)
+from models.usuarios_model import UpdateUsuarioModel, UsuarioCollection, UsuarioModel
 from services.usuario_service import UsuarioService
 
 recuperar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])

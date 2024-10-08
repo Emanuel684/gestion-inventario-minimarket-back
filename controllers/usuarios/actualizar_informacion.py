@@ -67,11 +67,11 @@ def actualizar_informacion(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with UsuarioService(cursor=cursor) as reactores_service:
-            data = reactores_service.inventarios_repository.get_list()
+        with UsuarioService(cursor=cursor) as usuarios_service:
+            data = usuarios_service.usuarios_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
-    except Exception:
+    except Exception as ex:
         log = get_log()
         log.error(traceback.format_exc())
 

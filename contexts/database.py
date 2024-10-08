@@ -32,5 +32,5 @@ def crear_cursor_mongo(conexion: MongoClient):
     Returns:
         Cursor para ejecutar operaciones sobre la base de datos
     """
-    mongo_db = conexion.iaea_reactores
+    mongo_db = conexion.mini_market
     return lambda: mongo_db

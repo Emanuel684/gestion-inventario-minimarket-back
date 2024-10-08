@@ -38,7 +38,7 @@ def eliminar_cuenta(response: Response, identificador: str):
 
         data = "Usuario no eliminado correctamente"
         with UsuarioService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.inventarios_repository.delete(identificador)
+            delete_result = reactor_service.usuarios_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"User {id} not found")
