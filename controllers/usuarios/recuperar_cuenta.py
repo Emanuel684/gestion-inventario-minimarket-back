@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para actualiza un reactor y la informacion asociado a este
+"""Modulo con el endpoint para actualiza un usuario y la informacion asociado a este
     segun su identificador."""
 
 # External libraries
@@ -9,8 +9,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.usuarios_model import (UpdateUsuarioModel, UsuarioCollection,
-                                   UsuarioModel)
+from models.usuarios_model import UpdateUsuarioModel, UsuarioCollection, UsuarioModel
 from services.usuario_service import UsuarioService
 
 recuperar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
@@ -23,12 +22,12 @@ recuperar_cuenta_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
     response_model_by_alias=False,
 )
 def recuperar_cuenta(
-    response: Response, identificador: str, reactor: UpdateUsuarioModel
+    response: Response, identificador: str, usuario: UpdateUsuarioModel
 ):
-    """Actualiza la informacion correspondiente a un reactor en la base de datos.
+    """Actualiza la informacion correspondiente a un usuario en la base de datos.
 
     Returns:
-        Si la informacion del reactor fue actualizada correctamente o no.
+        Si la informacion del usuario fue actualizada correctamente o no.
 
         .. code-block:: python
 
@@ -37,7 +36,7 @@ def recuperar_cuenta(
               'success': true,
               'data': {
                 'id': '6632967e003a94e8c87d5658',
-                'nombre_reactor': 'Isis PRUEBA ACTUALIZACION',
+                'nombre_usuario': 'Isis PRUEBA ACTUALIZACION',
                 'pais': 'France',
                 'ciudad': 'Gif-sur-Yvette',
                 'tipo': 'POOL',
@@ -57,16 +56,16 @@ def recuperar_cuenta(
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with UsuarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.get_by_id(identificador)
+        with UsuarioService(cursor=cursor) as usuario_service:
+            data = usuario_service.usuarios_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.inventarios_repository.update(
-                    identificador, reactor
+                data = usuario_service.inventarios_repository.update(
+                    identificador, usuario
                 )
                 message = "Se obtuvo el resultado exitosamente."
                 success = True
             else:
-                message = f"Reactor {identificador} no encontrado"
+                message = f"Usuario {identificador} no encontrado"
                 status_code = 404
                 data = UsuarioModel()
                 success = False

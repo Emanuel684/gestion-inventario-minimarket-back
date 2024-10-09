@@ -36,9 +36,9 @@ def elimina_pedido(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        data = "Reactor no eliminado correctamente"
-        with PedidoService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.inventarios_repository.delete(identificador)
+        data = "Pedido no eliminado correctamente"
+        with PedidoService(cursor=cursor) as pedidos_service:
+            delete_result = pedidos_service.inventarios_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

@@ -8,19 +8,19 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.usuarios_model import UsuariosCollection
+from models.usuarios_model import UsuarioModel, UsuariosCollection
 from services.usuario_service import UsuarioService
 
 actualizar_informacion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
 
 
-@actualizar_informacion_controller.get(
+@actualizar_informacion_controller.post(
     "/actualizar_informacion",
     status_code=200,
     response_model=UsuariosCollection,
     response_model_by_alias=False,
 )
-def actualizar_informacion(response: Response):
+def actualizar_informacion(response: Response, usuario: UsuarioModel):
     """Obtener todos los reactores registrados en la tabla REACTORES
 
     Args:

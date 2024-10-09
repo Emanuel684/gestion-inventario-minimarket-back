@@ -60,10 +60,10 @@ def pedido_reactor(response: Response, identificador: str, pedido: UpdatePedidoM
                 data = reactor_service.inventarios_repository.update(
                     identificador, pedido
                 )
-                message = "Se obtuvo el resultado exitosamente."
+                message = "Resultado exitosamente."
                 success = True
             else:
-                message = f"pedido {identificador} no encontrado"
+                message = f"Pedido {identificador} no encontrado"
                 status_code = 404
                 data = PedidoModel()
                 success = False

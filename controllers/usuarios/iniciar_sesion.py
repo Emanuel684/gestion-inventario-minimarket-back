@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para obtener un reactor por identificador (ID)"""
+"""Modulo con el endpoint para obtener un usuario por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -21,16 +21,16 @@ iniciar_sesion_controller = APIRouter(prefix="/usuarios", tags=["usuarios"])
     response_model_by_alias=False,
 )
 def iniciar_sesion(response: Response, identificador: str):
-    """Obtener informacion de un reactor registrado en la tabla REACTORES
+    """Obtener informacion de un usuario registrado en la tabla REACTORES
         segun su ID.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos consultar
+        identificador: ID que identifica al usuario que queremos consultar
 
     Returns:
-        Información corespondiente al reactor que queremos consultar.
+        Información corespondiente al usuario que queremos consultar.
 
          .. code-block:: python
 
@@ -39,7 +39,7 @@ def iniciar_sesion(response: Response, identificador: str):
               'success': true,
               'data': {
                 'id': '662d0d325363bbc93a0c027c',
-                'nombre_reactor': 'SUR Hannover',
+                'nombre_usuario': 'SUR Hannover',
                 'pais': 'Germany',
                 'ciudad': 'Hannover',
                 'tipo': 'HOMOG (S)',

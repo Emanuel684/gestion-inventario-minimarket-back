@@ -38,7 +38,7 @@ def elimina_tienda(response: Response, identificador: str):
 
         data = "Reactor no eliminado correctamente"
         with TiendaService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.inventarios_repository.delete(identificador)
+            delete_result = reactor_service.tiendas_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

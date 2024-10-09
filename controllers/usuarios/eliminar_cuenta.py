@@ -41,7 +41,9 @@ def eliminar_cuenta(response: Response, identificador: str):
             delete_result = reactor_service.usuarios_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
-            raise HTTPException(status_code=404, detail=f"User {id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"User {identificador} not found"
+            )
     except Exception:
         log = get_log()
         log.error(traceback.format_exc())
