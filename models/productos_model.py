@@ -61,25 +61,22 @@ class ProductoModel(BaseModel):
 
 class UpdateProductoModel(BaseModel):
 
-    nombre_reactor: str | int = None
-    """Contiene la información generada por los endpoints."""
-
-    pais: Optional[str] = None
-    """Contiene la información generada por los endpoints."""
-
-    ciudad: Optional[str] = None
+    nombre: str | int = None
     """Contiene la información generada por los endpoints."""
 
     tipo: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: Optional[float] = None
+    sub_tipo: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    estado: Optional[str] = None
+    precio: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    fecha_primera_reaccion: Optional[str] = None
+    fecha_creacion: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
