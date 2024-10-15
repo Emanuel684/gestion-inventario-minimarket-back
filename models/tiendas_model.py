@@ -59,13 +59,17 @@ class TiendaModel(BaseModel):
         json_schema_extra={
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
-                "nombre_reactor": "Isis",
+                "id_usuario_tendero": "662d0d325363bbc93a0c0295",
+                "nombre": "Isis",
                 "pais": "France",
                 "ciudad": "Gif-sur-Yvette",
-                "tipo": "POOL",
-                "potencia_termica": 700,
-                "estado": "UNDER DECOMMISSIONING",
-                "fecha_primera_reaccion": "1966-04-28T00:00:00",
+                "direccion": "UNDER DECOMMISSIONING",
+                "telefono": "4187277",
+                "celular": "3187604393",
+                "hora_inicio": "3187604393",
+                "hora_fin": "3187604393",
+                "fecha_creacion": "1966-04-28T00:00:00",
+                "fecha_actualizacion": "1966-04-28T00:00:00",
             }
         },
     )
@@ -73,25 +77,37 @@ class TiendaModel(BaseModel):
 
 class UpdateTiendaModel(BaseModel):
 
-    nombre_reactor: str | int = None
+    id_usuario_tendero: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: Optional[str] = None
+    nombre: str = None
     """Contiene la información generada por los endpoints."""
 
-    ciudad: Optional[str] = None
+    ciudad: str = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: Optional[str] = None
+    pais: str = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: Optional[float] = None
+    direccion: str = None
     """Contiene la información generada por los endpoints."""
 
-    estado: Optional[str] = None
+    telefono: str = None
     """Contiene la información generada por los endpoints."""
 
-    fecha_primera_reaccion: Optional[str] = None
+    celular: str = None
+    """Contiene la información generada por los endpoints."""
+
+    hora_inicio: str = None
+    """Contiene la información generada por los endpoints."""
+
+    hora_fin: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_creacion: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(

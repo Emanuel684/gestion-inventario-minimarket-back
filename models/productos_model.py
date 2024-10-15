@@ -20,25 +20,22 @@ class ProductoModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    nombre_reactor: str | int = None
+    nombre: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: str = None
+    tipo: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    ciudad: str = None
+    sub_tipo: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: str = None
+    precio: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: int | float = None
+    fecha_creacion: str = None
     """Contiene la información generada por los endpoints."""
 
-    estado: str = None
-    """Contiene la información generada por los endpoints."""
-
-    fecha_primera_reaccion: str = None
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
@@ -47,13 +44,12 @@ class ProductoModel(BaseModel):
         json_schema_extra={
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
-                "nombre_reactor": "Isis",
-                "pais": "France",
-                "ciudad": "Gif-sur-Yvette",
-                "tipo": "POOL",
-                "potencia_termica": 700,
-                "estado": "UNDER DECOMMISSIONING",
-                "fecha_primera_reaccion": "1966-04-28T00:00:00",
+                "nombre": "Isis",
+                "tipo": "France",
+                "sub_tipo": "POOL",
+                "precio": 700,
+                "fecha_creacion": "1966-04-28T00:00:00",
+                "fecha_actualizacion": "1966-04-28T00:00:00",
             }
         },
     )

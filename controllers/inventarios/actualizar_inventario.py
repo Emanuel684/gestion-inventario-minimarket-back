@@ -9,8 +9,11 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.inventarios_model import (InventarioCollection, InventarioModel,
-                                      UpdateInventarioModel)
+from models.inventarios_model import (
+    InventarioCollection,
+    InventarioModel,
+    UpdateInventarioModel,
+)
 from services.inventario_service import InventarioService
 
 actualizar_inventario_controller = APIRouter(

@@ -50,13 +50,14 @@ class PedidoModel(BaseModel):
         json_schema_extra={
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
-                "nombre_reactor": "Isis",
-                "pais": "France",
-                "ciudad": "Gif-sur-Yvette",
-                "tipo": "POOL",
-                "potencia_termica": 700,
-                "estado": "UNDER DECOMMISSIONING",
-                "fecha_primera_reaccion": "1966-04-28T00:00:00",
+                "id_tienda": "662d0d325363bbc93a0c0295",
+                "id_cliente": "662d0d325363bbc93a0c0295",
+                "productos": ["662d0d325363bbc93a0c0295", "662d0d325363bbc93a0c0295"],
+                "precio_total": 700,
+                "direccion": "UNDER DECOMMISSIONING",
+                "fecha_entrega": "1966-04-28T00:00:00",
+                "fecha_creacion": "1966-04-28T00:00:00",
+                "fecha_actualizacion": "1966-04-28T00:00:00",
             }
         },
     )
@@ -64,25 +65,28 @@ class PedidoModel(BaseModel):
 
 class UpdatePedidoModel(BaseModel):
 
-    nombre_reactor: str | int = None
+    id_tienda: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: Optional[str] = None
+    id_cliente: str = None
     """Contiene la información generada por los endpoints."""
 
-    ciudad: Optional[str] = None
+    productos: str = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: Optional[str] = None
+    precio_total: str = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: Optional[float] = None
+    direccion: int | float = None
     """Contiene la información generada por los endpoints."""
 
-    estado: Optional[str] = None
+    fecha_entrega: str = None
     """Contiene la información generada por los endpoints."""
 
-    fecha_primera_reaccion: Optional[str] = None
+    fecha_creacion: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
