@@ -20,25 +20,37 @@ class TiendaModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    nombre_reactor: str | int = None
+    id_usuario_tendero: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: str = None
+    nombre: str = None
     """Contiene la información generada por los endpoints."""
 
     ciudad: str = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: str = None
+    pais: str = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: int | float = None
+    direccion: str = None
     """Contiene la información generada por los endpoints."""
 
-    estado: str = None
+    telefono: str = None
     """Contiene la información generada por los endpoints."""
 
-    fecha_primera_reaccion: str = None
+    celular: str = None
+    """Contiene la información generada por los endpoints."""
+
+    hora_inicio: str = None
+    """Contiene la información generada por los endpoints."""
+
+    hora_fin: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_creacion: str = None
+    """Contiene la información generada por los endpoints."""
+
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(

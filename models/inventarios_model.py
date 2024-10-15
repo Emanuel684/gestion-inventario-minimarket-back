@@ -20,25 +20,19 @@ class InventarioModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    nombre_reactor: str | int = None
+    id_producto: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    pais: str = None
+    id_tienda: str = None
     """Contiene la información generada por los endpoints."""
 
-    ciudad: str = None
+    cantidad_disponibles: str = None
     """Contiene la información generada por los endpoints."""
 
-    tipo: str = None
+    fecha_creacion: str = None
     """Contiene la información generada por los endpoints."""
 
-    potencia_termica: int | float = None
-    """Contiene la información generada por los endpoints."""
-
-    estado: str = None
-    """Contiene la información generada por los endpoints."""
-
-    fecha_primera_reaccion: str = None
+    fecha_actualizacion: str = None
     """Contiene la información generada por los endpoints."""
 
     model_config = ConfigDict(
