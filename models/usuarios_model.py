@@ -70,7 +70,7 @@ class UpdateUsuarioModel(BaseModel):
     email: str | int = None
     """Contiene la información generada por los endpoints."""
 
-    password: str | int = None
+    password: str = None
     """Contiene la información generada por los endpoints."""
 
     pais: str = None

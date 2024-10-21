@@ -45,7 +45,8 @@ class UsuarioRepository(ABC):
                 }
 
         """
-        respuesta = self._session.usuarios.find_one({"_id": ObjectId(identificador)})
+        # respuesta = self._session.usuarios.find_one({"_id": ObjectId(identificador)})
+        respuesta = self._session.usuarios.find_one({"email": identificador})
         return respuesta
 
     def get_list(self) -> list:

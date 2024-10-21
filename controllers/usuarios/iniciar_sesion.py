@@ -75,6 +75,7 @@ def iniciar_sesion(response: Response, identificador: str):
         status_code = 500
     finally:
         response.status_code = status_code
+        print('data: ', data)
         res = UsuarioCollection(success=success, msg=message, data=data)
 
     return res
