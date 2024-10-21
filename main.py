@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Api MiniMarket", version="1.0.0")
 
-origins = ["http://localhost:4200"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
