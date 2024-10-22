@@ -20,7 +20,7 @@ class InventarioModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    id_producto: str | int = None
+    id_producto: str = None
     """Contiene la información generada por los endpoints."""
 
     id_tienda: str = None
@@ -43,9 +43,9 @@ class InventarioModel(BaseModel):
                 "id": "662d0d325363bbc93a0c0295",
                 "id_producto": "662d0d325363bbc93a0c0295",
                 "id_tienda": "662d0d325363bbc93a0c0295",
-                "cantidad_disponibles": 700,
-                "fecha_creacion": "1966-04-28T00:00:00",
-                "fecha_actualizacion": "1966-04-28T00:00:00",
+                "cantidad_disponibles": "700",
+                "fecha_creacion": "2024-10-22T00:00:00",
+                "fecha_actualizacion": "2024-10-22T00:00:00",
             }
         },
     )

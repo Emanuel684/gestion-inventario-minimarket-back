@@ -44,12 +44,12 @@ class ProductoModel(BaseModel):
         json_schema_extra={
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
-                "nombre": "Isis",
-                "tipo": "France",
-                "sub_tipo": "POOL",
-                "precio": 700,
-                "fecha_creacion": "1966-04-28T00:00:00",
-                "fecha_actualizacion": "1966-04-28T00:00:00",
+                "nombre": "Leche",
+                "tipo": "Lacteo",
+                "sub_tipo": "Leche",
+                "precio": "5500",
+                "fecha_creacion": "2024-10-22T00:00:00",
+                "fecha_actualizacion": "2024-10-22T00:00:00",
             }
         },
     )

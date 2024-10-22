@@ -36,15 +36,14 @@ def crear_producto(response: Response, producto: ProductoModel):
               'msg': 'Se obtuvo el resultado exitosamente.',
               'success': true,
               'data': {
-                '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_producto': 'producto',
-                'pais': 'Democratic Republic of the Congo',
-                'ciudad': 'Kinshasa',
-                'tipo': 'TRIGA MARK II',
-                'potencia_termica': 15000,
-                'estado': 'EXTENDED SHUTDOWN',
-                'fecha_primera_reaccion': '1972-03-24T00:00:00'
-              }
+                    '_id': '662d0d325363bbc93a0c0295',
+                    'nombre': 'Leche',
+                    'tipo': 'Lacteo',
+                    'sub_tipo': 'Leche',
+                    'precio': 5500,
+                    'fecha_creacion': '2024-10-22T00:00:00',
+                    'fecha_actualizacion': '2024-10-22T00:00:00',
+                }
             }
 
     """
