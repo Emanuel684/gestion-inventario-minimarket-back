@@ -35,24 +35,22 @@ def productos_registrados(response: Response):
             {
               'data': [
                 {
-                  'id': '662d0d325363bbc93a0c027c',
-                  'nombre_reactor': 'SUR Hannover',
-                  'pais': 'Germany',
-                  'ciudad': 'Hannover',
-                  'tipo': 'HOMOG (S)',
-                  'potencia_termica': 0.001,
-                  'estado': 'DECOMMISSIONED',
-                  'fecha_primera_reaccion': '1971-12-09T00:00:00'
+                  'id': '6717c43ef963e95aa4789246',
+                  'nombre': 'Leche',
+                  'tipo': 'Lacteo',
+                  'sub_tipo': 'Leche',
+                  'precio': '5500',
+                  'fecha_creacion': '2024-10-22T00:00:00',
+                  'fecha_actualizacion': '2024-10-22T00:00:00'
                 },
                 {
-                  'id': '662d0d325363bbc93a0c027f',
-                  'nombre_reactor': 'SUR Munich',
-                  'pais': 'Germany',
-                  'ciudad': 'Munich',
-                  'tipo': 'HOMOG (S)',
-                  'potencia_termica': 0,
-                  'estado': 'DECOMMISSIONED',
-                  'fecha_primera_reaccion': '1962-02-01T00:00:00'
+                  'id': '6717c43ef963e95aa4789246',
+                  'nombre': 'Leche',
+                  'tipo': 'Lacteo',
+                  'sub_tipo': 'Leche',
+                  'precio': '5500',
+                  'fecha_creacion': '2024-10-22T00:00:00',
+                  'fecha_actualizacion': '2024-10-22T00:00:00'
                 }],
               'msg': 'Se obtuvo el resultado exitosamente.',
               'success': true
