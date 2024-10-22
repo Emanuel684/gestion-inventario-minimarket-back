@@ -9,8 +9,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.pedidos_model import (PedidoCollection, PedidoModel,
-                                  UpdatePedidoModel)
+from models.pedidos_model import PedidoCollection, PedidoModel, UpdatePedidoModel
 from services.pedido_service import PedidoService
 
 actualizar_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])

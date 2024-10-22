@@ -45,8 +45,7 @@ class TiendaRepository(ABC):
                 }
 
         """
-        respuesta = self._session.tiendas.find_one({"_id": ObjectId(identificador)})
-        return respuesta
+        return self._session.tiendas.find_one({"id_usuario_tendero": identificador})
 
     def get_list(self) -> list:
         """Obtener todos los tiendas registrados en la colleccion de Mongo Db
