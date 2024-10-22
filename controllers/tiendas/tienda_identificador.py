@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para obtener un reactor por identificador (ID)"""
+"""Modulo con el endpoint para obtener un tienda por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -21,16 +21,16 @@ tienda_identificador_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
     response_model_by_alias=False,
 )
 def tienda_identificador(response: Response, identificador: str):
-    """Obtener informacion de un reactor registrado en la tabla REACTORES
+    """Obtener informacion de un tienda registrado en la tabla REACTORES
         segun su ID.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos consultar
+        identificador: ID que identifica al tienda que queremos consultar
 
     Returns:
-        Información corespondiente al reactor que queremos consultar.
+        Información corespondiente al tienda que queremos consultar.
 
          .. code-block:: python
 
@@ -39,7 +39,7 @@ def tienda_identificador(response: Response, identificador: str):
               'success': true,
               'data': {
                 'id': '662d0d325363bbc93a0c027c',
-                'nombre_reactor': 'SUR Hannover',
+                'nombre_tienda': 'SUR Hannover',
                 'pais': 'Germany',
                 'ciudad': 'Hannover',
                 'tipo': 'HOMOG (S)',
@@ -59,8 +59,8 @@ def tienda_identificador(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with TiendaService(cursor=cursor) as reactor_service:
-            data = reactor_service.tiendas_repository.get_by_id(identificador)
+        with TiendaService(cursor=cursor) as tienda_service:
+            data = tienda_service.tiendas_repository.get_by_id(identificador)
             if data is None:
                 data = TiendaModel()
         message = "Se obtuvo el resultado exitosamente."

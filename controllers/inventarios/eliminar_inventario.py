@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para eliminar un reactor por identificador (ID)"""
+"""Modulo con el endpoint para eliminar un inventario por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -17,15 +17,15 @@ eliminar_inventario_controller = APIRouter(prefix="/inventarios", tags=["inventa
     "/eliminar-inventario/{identificador}", status_code=200
 )
 def elimina_inventario(response: Response, identificador: str):
-    """Elimina un registro correspondiente a un reactor en la base de datos
+    """Elimina un registro correspondiente a un inventario en la base de datos
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos eliminar
+        identificador: ID que identifica al inventario que queremos eliminar
 
     Returns:
-        Si la informacion del reactor fue eliminado correctamente o no.
+        Si la informacion del inventario fue eliminado correctamente o no.
         Si fue eliminada correctamente regresara un status code de 204.
 
     """
@@ -39,8 +39,10 @@ def elimina_inventario(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         data = "Reactor no eliminado correctamente"
-        with InventarioService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.inventarios_repository.delete(identificador)
+        with InventarioService(cursor=cursor) as inventario_service:
+            delete_result = inventario_service.inventarios_repository.delete(
+                identificador
+            )
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

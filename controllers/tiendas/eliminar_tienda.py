@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para eliminar un reactor por identificador (ID)"""
+"""Modulo con el endpoint para eliminar un tienda por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -15,15 +15,15 @@ eliminar_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
 
 @eliminar_tienda_controller.delete("/eliminar-tienda/{identificador}", status_code=200)
 def elimina_tienda(response: Response, identificador: str):
-    """Elimina un registro correspondiente a un reactor en la base de datos
+    """Elimina un registro correspondiente a un tienda en la base de datos
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos eliminar
+        identificador: ID que identifica al tienda que queremos eliminar
 
     Returns:
-        Si la informacion del reactor fue eliminado correctamente o no.
+        Si la informacion del tienda fue eliminado correctamente o no.
         Si fue eliminada correctamente regresara un status code de 204.
 
     """
@@ -37,8 +37,8 @@ def elimina_tienda(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         data = "Reactor no eliminado correctamente"
-        with TiendaService(cursor=cursor) as reactor_service:
-            delete_result = reactor_service.tiendas_repository.delete(identificador)
+        with TiendaService(cursor=cursor) as tienda_service:
+            delete_result = tienda_service.tiendas_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

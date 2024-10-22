@@ -58,8 +58,8 @@ def crear_tienda(response: Response, tienda: TiendaModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with TiendaService(cursor=cursor) as reactor_service:
-            data = reactor_service.tiendas_repository.add(tienda)
+        with TiendaService(cursor=cursor) as tienda_service:
+            data = tienda_service.tiendas_repository.add(tienda)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

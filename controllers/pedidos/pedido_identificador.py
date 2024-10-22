@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para obtener un reactor por identificador (ID)"""
+"""Modulo con el endpoint para obtener un pedido por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -15,22 +15,22 @@ pedido_identificador_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
 @pedido_identificador_controller.get(
-    "/reactor-identificador/{identificador}",
+    "/pedido-identificador/{identificador}",
     status_code=200,
     response_model=PedidoCollection,
     response_model_by_alias=False,
 )
 def pedido_identificador(response: Response, identificador: str):
-    """Obtener informacion de un reactor registrado en la tabla REACTORES
+    """Obtener informacion de un pedido registrado en la tabla REACTORES
         segun su ID.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos consultar
+        identificador: ID que identifica al pedido que queremos consultar
 
     Returns:
-        Información corespondiente al reactor que queremos consultar.
+        Información corespondiente al pedido que queremos consultar.
 
          .. code-block:: python
 
@@ -39,7 +39,7 @@ def pedido_identificador(response: Response, identificador: str):
               'success': true,
               'data': {
                 'id': '662d0d325363bbc93a0c027c',
-                'nombre_reactor': 'SUR Hannover',
+                'nombre_pedido': 'SUR Hannover',
                 'pais': 'Germany',
                 'ciudad': 'Hannover',
                 'tipo': 'HOMOG (S)',
@@ -59,8 +59,8 @@ def pedido_identificador(response: Response, identificador: str):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with PedidoService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.get_by_id(identificador)
+        with PedidoService(cursor=cursor) as pedido_service:
+            data = pedido_service.inventarios_repository.get_by_id(identificador)
             if data is None:
                 data = PedidoModel()
         message = "Se obtuvo el resultado exitosamente."

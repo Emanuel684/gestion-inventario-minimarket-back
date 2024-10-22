@@ -37,7 +37,7 @@ def crear_inventario(response: Response, inventario: InventarioModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'inventario',
+                'nombre_inventario': 'inventario',
                 'pais': 'Democratic Republic of the Congo',
                 'ciudad': 'Kinshasa',
                 'tipo': 'TRIGA MARK II',
@@ -58,8 +58,8 @@ def crear_inventario(response: Response, inventario: InventarioModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with InventarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.add(inventario)
+        with InventarioService(cursor=cursor) as inventario_service:
+            data = inventario_service.inventarios_repository.add(inventario)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

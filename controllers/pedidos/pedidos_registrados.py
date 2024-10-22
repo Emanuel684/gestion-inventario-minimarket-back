@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para obtener todos los reactores registrados"""
+"""Modulo con el endpoint para obtener todos los pedidoes registrados"""
 
 # External libraries
 import traceback
@@ -15,20 +15,20 @@ pedidos_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
 @pedidos_registrados_controller.get(
-    "/reactores-registrados",
+    "/pedidoes-registrados",
     status_code=200,
     response_model=PedidosCollection,
     response_model_by_alias=False,
 )
 def pedidos_registrados(response: Response):
-    """Obtener todos los reactores registrados en la tabla REACTORES
+    """Obtener todos los pedidoes registrados en la tabla REACTORES
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
 
     Returns:
-        Todos los reactores registrados en la base de datos
+        Todos los pedidos registrados en la base de datos
 
         .. code-block:: python
 
@@ -36,7 +36,7 @@ def pedidos_registrados(response: Response):
               'data': [
                 {
                   'id': '662d0d325363bbc93a0c027c',
-                  'nombre_reactor': 'SUR Hannover',
+                  'nombre_pedido': 'SUR Hannover',
                   'pais': 'Germany',
                   'ciudad': 'Hannover',
                   'tipo': 'HOMOG (S)',
@@ -46,7 +46,7 @@ def pedidos_registrados(response: Response):
                 },
                 {
                   'id': '662d0d325363bbc93a0c027f',
-                  'nombre_reactor': 'SUR Munich',
+                  'nombre_pedido': 'SUR Munich',
                   'pais': 'Germany',
                   'ciudad': 'Munich',
                   'tipo': 'HOMOG (S)',
@@ -67,8 +67,8 @@ def pedidos_registrados(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with PedidoService(cursor=cursor) as reactores_service:
-            data = reactores_service.inventarios_repository.get_list()
+        with PedidoService(cursor=cursor) as pedido_service:
+            data = pedido_service.inventarios_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:

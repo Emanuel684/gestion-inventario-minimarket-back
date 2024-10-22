@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para eliminar un reactor por identificador (ID)"""
+"""Modulo con el endpoint para eliminar un pedido por identificador (ID)"""
 
 # External libraries
 import traceback
@@ -14,16 +14,16 @@ eliminar_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
 @eliminar_pedido_controller.delete("/eliminar-pedido/{identificador}", status_code=200)
-def elimina_pedido(response: Response, identificador: str):
-    """Elimina un registro correspondiente a un reactor en la base de datos
+def eliminar_pedido(response: Response, identificador: str):
+    """Elimina un registro correspondiente a un pedido en la base de datos
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        identificador: ID que identifica al reactor que queremos eliminar
+        identificador: ID que identifica al pedido que queremos eliminar
 
     Returns:
-        Si la informacion del reactor fue eliminado correctamente o no.
+        Si la informacion del pedido fue eliminado correctamente o no.
         Si fue eliminada correctamente regresara un status code de 204.
 
     """

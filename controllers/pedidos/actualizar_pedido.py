@@ -21,7 +21,7 @@ actualizar_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
     response_model=PedidoCollection,
     response_model_by_alias=False,
 )
-def pedido_reactor(response: Response, identificador: str, pedido: UpdatePedidoModel):
+def pedido_pedido(response: Response, identificador: str, pedido: UpdatePedidoModel):
     """Actualiza la informacion correspondiente a un pedido en la base de datos.
 
     Returns:
@@ -34,7 +34,7 @@ def pedido_reactor(response: Response, identificador: str, pedido: UpdatePedidoM
               'success': true,
               'data': {
                 'id': '6632967e003a94e8c87d5658',
-                'nombre_reactor': 'Isis PRUEBA ACTUALIZACION',
+                'nombre_pedido': 'Isis PRUEBA ACTUALIZACION',
                 'pais': 'France',
                 'ciudad': 'Gif-sur-Yvette',
                 'tipo': 'POOL',
@@ -54,10 +54,10 @@ def pedido_reactor(response: Response, identificador: str, pedido: UpdatePedidoM
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with PedidoService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.get_by_id(identificador)
+        with PedidoService(cursor=cursor) as pedido_service:
+            data = pedido_service.inventarios_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.inventarios_repository.update(
+                data = pedido_service.inventarios_repository.update(
                     identificador, pedido
                 )
                 message = "Resultado exitosamente."

@@ -9,11 +9,8 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.inventarios_model import (
-    InventarioCollection,
-    InventarioModel,
-    UpdateInventarioModel,
-)
+from models.inventarios_model import (InventarioCollection, InventarioModel,
+                                      UpdateInventarioModel)
 from services.inventario_service import InventarioService
 
 actualizar_inventario_controller = APIRouter(
@@ -42,7 +39,7 @@ def actualizar_inventario(
               'success': true,
               'data': {
                 'id': '6632967e003a94e8c87d5658',
-                'nombre_reactor': 'Isis PRUEBA ACTUALIZACION',
+                'nombre_inventario': 'Isis PRUEBA ACTUALIZACION',
                 'pais': 'France',
                 'ciudad': 'Gif-sur-Yvette',
                 'tipo': 'POOL',
@@ -62,10 +59,10 @@ def actualizar_inventario(
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
 
-        with InventarioService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.get_by_id(identificador)
+        with InventarioService(cursor=cursor) as inventario_service:
+            data = inventario_service.inventarios_repository.get_by_id(identificador)
             if data is not None:
-                data = reactor_service.inventarios_repository.update(
+                data = inventario_service.inventarios_repository.update(
                     identificador, inventario
                 )
                 message = "Se obtuvo el resultado exitosamente."

@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para obtener todos los reactores registrados"""
+"""Modulo con el endpoint para obtener todos los tiendaes registrados"""
 
 # External libraries
 import traceback
@@ -21,14 +21,14 @@ tiendas_registradas_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])
     response_model_by_alias=False,
 )
 def tiendas_registradas(response: Response):
-    """Obtener todos los reactores registrados en la tabla REACTORES
+    """Obtener todos los tiendaes registrados en la tabla REACTORES
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
 
     Returns:
-        Todos los reactores registrados en la base de datos
+        Todos los tiendaes registrados en la base de datos
 
         .. code-block:: python
 
@@ -36,7 +36,7 @@ def tiendas_registradas(response: Response):
               'data': [
                 {
                   'id': '662d0d325363bbc93a0c027c',
-                  'nombre_reactor': 'SUR Hannover',
+                  'nombre_tienda': 'SUR Hannover',
                   'pais': 'Germany',
                   'ciudad': 'Hannover',
                   'tipo': 'HOMOG (S)',
@@ -46,7 +46,7 @@ def tiendas_registradas(response: Response):
                 },
                 {
                   'id': '662d0d325363bbc93a0c027f',
-                  'nombre_reactor': 'SUR Munich',
+                  'nombre_tienda': 'SUR Munich',
                   'pais': 'Germany',
                   'ciudad': 'Munich',
                   'tipo': 'HOMOG (S)',
@@ -67,8 +67,8 @@ def tiendas_registradas(response: Response):
     try:
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
-        with TiendaService(cursor=cursor) as reactores_service:
-            data = reactores_service.tiendas_repository.get_list()
+        with TiendaService(cursor=cursor) as tienda_service:
+            data = tienda_service.tiendas_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:

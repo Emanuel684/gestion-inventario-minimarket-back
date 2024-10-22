@@ -1,4 +1,4 @@
-"""Modulo con el endpoint para crear un reactor y la informacion asociado a este"""
+"""Modulo con el endpoint para crear un pedido y la informacion asociado a este"""
 
 # External libraries
 import traceback
@@ -19,16 +19,16 @@ crear_pedido_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
     status_code=status.HTTP_201_CREATED,
     response_model=PedidoCollection,
 )
-def crear_pedido(response: Response, reactor: PedidoModel):
-    """Crea un reactor dada la informacion correspondiente al mismo.
+def crear_pedido(response: Response, pedido: PedidoModel):
+    """Crea un pedido dada la informacion correspondiente al mismo.
 
     Args:
         response: parametro de entrada para construir la respuesta en el
             decorador wrapper.
-        reactor: Informacion del reactor a crear en la base de datos
+        pedido: Informacion del pedido a crear en la base de datos
 
     Returns:
-        Si el reactor fue creado exitosamente o no.
+        Si el pedido fue creado exitosamente o no.
 
         .. code-block:: python
 
@@ -37,7 +37,7 @@ def crear_pedido(response: Response, reactor: PedidoModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'REACTOR',
+                'nombre_pedido': 'REACTOR',
                 'pais': 'Democratic Republic of the Congo',
                 'ciudad': 'Kinshasa',
                 'tipo': 'TRIGA MARK II',
@@ -58,8 +58,8 @@ def crear_pedido(response: Response, reactor: PedidoModel):
         cursor = crear_cursor_mongo(conexion)
 
         data = {}
-        with PedidoService(cursor=cursor) as reactor_service:
-            data = reactor_service.inventarios_repository.add(reactor)
+        with PedidoService(cursor=cursor) as pedido_service:
+            data = pedido_service.inventarios_repository.add(pedido)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True
