@@ -37,13 +37,17 @@ def crear_tienda(response: Response, tienda: TiendaModel):
               'success': true,
               'data': {
                 '_id': '662d10f8dd91ebe8c34a81f2',
-                'nombre_reactor': 'tienda',
-                'pais': 'Democratic Republic of the Congo',
-                'ciudad': 'Kinshasa',
-                'tipo': 'TRIGA MARK II',
-                'potencia_termica': 15000,
-                'estado': 'EXTENDED SHUTDOWN',
-                'fecha_primera_reaccion': '1972-03-24T00:00:00'
+                'id_usuario_tendero': '662d10f8dd91ebe8c34a81f2',
+                'nombre': 'RanchoTienda',
+                'ciudad': 'Medellín',
+                'pais': 'Colombia',
+                'direccion': 'Carrera 65 C #47 Sur 44',
+                'telefono': '4187277',
+                'celular': '3187604393',
+                'hora_inicio': '08:00',
+                'hora_fin': '16:00',
+                'fecha_creacion': '1972-03-24T00:00:00',
+                'fecha_actualizacion': '1972-03-24T00:00:00'
               }
             }
 

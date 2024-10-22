@@ -12,7 +12,7 @@ from models.pedidos_model import PedidoModel
 
 
 class PedidoRepository(ABC):
-    """Repositorio correspondiente a las Ubicaciones de los reactores."""
+    """Repositorio correspondiente a las Ubicaciones de los pedidos."""
 
     def __init__(self, session: Session) -> None:
         """Crea una nueva instancia del repositorio y la conexion de Mongo.
@@ -23,19 +23,19 @@ class PedidoRepository(ABC):
         self._session = session
 
     def get_by_id(self, identificador: str) -> dict:
-        """Obtiene la informacion de un reactor segun su identificador
+        """Obtiene la informacion de un pedido segun su identificador
 
         Args:
             identificador (str): Identificador ObjectId de MongoDb
 
         Returns:
-            Informacion correspondiente al reactor
+            Informacion correspondiente al pedido
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_pedido': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -45,21 +45,21 @@ class PedidoRepository(ABC):
                 }
 
         """
-        respuesta = self._session.reactores.find_one({"_id": ObjectId(identificador)})
+        respuesta = self._session.pedidos.find_one({"_id": ObjectId(identificador)})
         return respuesta
 
     def get_list(self) -> list:
-        """Obtener todos los reactores registrados en la colleccion de Mongo Db
+        """Obtener todos los pedidos registrados en la colleccion de Mongo Db
 
         Returns:
-            Todos los reactores
+            Todos los pedidos
 
             .. code-block:: python
 
                 [
                     {
                       'id': '662d0d325363bbc93a0c027c',
-                      'nombre_reactor': 'SUR Hannover',
+                      'nombre_pedido': 'SUR Hannover',
                       'pais': 'Germany',
                       'ciudad': 'Hannover',
                       'tipo': 'HOMOG (S)',
@@ -69,7 +69,7 @@ class PedidoRepository(ABC):
                     },
                     {
                       'id': '662d0d325363bbc93a0c027f',
-                      'nombre_reactor': 'SUR Munich',
+                      'nombre_pedido': 'SUR Munich',
                       'pais': 'Germany',
                       'ciudad': 'Munich',
                       'tipo': 'HOMOG (S)',
@@ -80,24 +80,24 @@ class PedidoRepository(ABC):
                 ]
 
         """
-        reactores = self._session.reactores.find({})
-        respuesta = list(reactores)
+        pedidos = self._session.pedidos.find({})
+        respuesta = list(pedidos)
         return respuesta
 
     def add(self, record: PedidoModel) -> dict:
-        """Crea un nuevo registro en la coreccion de reactores
+        """Crea un nuevo registro en la coreccion de pedidos
 
         Args:
-            record (PedidoModel): informacion del reactor a agregar a la colleccion
+            record (PedidoModel): informacion del pedido a agregar a la colleccion
 
         Returns:
-            Informacion del reactor agregado
+            Informacion del pedido agregado
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_pedido': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -108,30 +108,30 @@ class PedidoRepository(ABC):
 
         """
 
-        nuevo_reactor = self._session.reactores.insert_one(
+        nuevo_pedido = self._session.pedidos.insert_one(
             record.model_dump(by_alias=True, exclude=["id"])
         )
-        reactor_creado = self._session.reactores.find_one(
-            {"_id": nuevo_reactor.inserted_id}
+        pedido_creado = self._session.pedidos.find_one(
+            {"_id": nuevo_pedido.inserted_id}
         )
 
-        return reactor_creado
+        return pedido_creado
 
     def update(self, identificador: str, record: PedidoModel) -> dict:
-        """Actualiza informacion de un reactor segun su identificador.
+        """Actualiza informacion de un pedido segun su identificador.
 
         Args:
-            identificador (str): Identificador del reactor a actualizar informacion.
+            identificador (str): Identificador del pedido a actualizar informacion.
             record (PedidoModel): Informacion que se actualizara del registro.
 
         Returns:
-            Informacion del reactor actualizado
+            Informacion del pedido actualizado
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_pedido': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -141,31 +141,31 @@ class PedidoRepository(ABC):
                 }
 
         """
-        reactor = {
+        pedido = {
             clave: valor
             for clave, valor in record.model_dump(by_alias=True).items()
             if valor is not None
         }
 
-        if len(reactor) >= 1:
-            reactor_actualizado = self._session.reactores.find_one_and_update(
+        if len(pedido) >= 1:
+            pedido_actualizado = self._session.pedidos.find_one_and_update(
                 {"_id": ObjectId(identificador)},
-                {"$set": reactor},
+                {"$set": pedido},
                 return_document=ReturnDocument.AFTER,
             )
 
-        return reactor_actualizado
+        return pedido_actualizado
 
     def delete(self, identificador: str):
-        """Elimina un reactor segun su identificador en la coleccion de reactores.
+        """Elimina un pedido segun su identificador en la coleccion de pedidos.
 
         Args:
-            identificador (str): Identificador del reactor a actualizar informacion.
+            identificador (str): Identificador del pedido a actualizar informacion.
 
         Returns:
             Elementos eliminados de la colleccion.
 
         """
-        record = self._session.reactores.delete_one({"_id": ObjectId(identificador)})
+        record = self._session.pedidos.delete_one({"_id": ObjectId(identificador)})
 
         return record

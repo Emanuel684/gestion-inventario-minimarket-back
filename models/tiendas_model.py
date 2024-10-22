@@ -58,18 +58,18 @@ class TiendaModel(BaseModel):
         json_encoders={ObjectId: str},
         json_schema_extra={
             "example": {
-                "id": "662d0d325363bbc93a0c0295",
-                "id_usuario_tendero": "662d0d325363bbc93a0c0295",
-                "nombre": "Isis",
-                "pais": "France",
-                "ciudad": "Gif-sur-Yvette",
-                "direccion": "UNDER DECOMMISSIONING",
+                "id": "662d10f8dd91ebe8c34a81f2",
+                "id_usuario_tendero": "662d10f8dd91ebe8c34a81f2",
+                "nombre": "RanchoTienda",
+                "ciudad": "Medellín",
+                "pais": "Colombia",
+                "direccion": "Carrera 65 C #47 Sur 44",
                 "telefono": "4187277",
                 "celular": "3187604393",
-                "hora_inicio": "3187604393",
-                "hora_fin": "3187604393",
-                "fecha_creacion": "1966-04-28T00:00:00",
-                "fecha_actualizacion": "1966-04-28T00:00:00",
+                "hora_inicio": "08:00",
+                "hora_fin": "16:00",
+                "fecha_creacion": "2024-10-22T00:00:00",
+                "fecha_actualizacion": "2024-10-22T00:00:00",
             }
         },
     )

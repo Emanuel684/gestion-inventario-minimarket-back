@@ -9,8 +9,7 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.tiendas_model import (TiendaCollection, TiendaModel,
-                                  UpdateTiendaModel)
+from models.tiendas_model import TiendaCollection, TiendaModel, UpdateTiendaModel
 from services.tienda_service import TiendaService
 
 actualizar_tienda_controller = APIRouter(prefix="/tiendas", tags=["tiendas"])

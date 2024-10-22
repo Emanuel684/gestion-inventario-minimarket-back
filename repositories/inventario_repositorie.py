@@ -23,19 +23,19 @@ class InventarioRepository(ABC):
         self._session = session
 
     def get_by_id(self, identificador: str) -> dict:
-        """Obtiene la informacion de un reactor segun su identificador
+        """Obtiene la informacion de un inventario segun su identificador
 
         Args:
             identificador (str): Identificador ObjectId de MongoDb
 
         Returns:
-            Informacion correspondiente al reactor
+            Informacion correspondiente al inventario
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_inventario': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -45,21 +45,21 @@ class InventarioRepository(ABC):
                 }
 
         """
-        respuesta = self._session.reactores.find_one({"_id": ObjectId(identificador)})
+        respuesta = self._session.inventarios.find_one({"_id": ObjectId(identificador)})
         return respuesta
 
     def get_list(self) -> list:
-        """Obtener todos los reactores registrados en la colleccion de Mongo Db
+        """Obtener todos los inventarios registrados en la colleccion de Mongo Db
 
         Returns:
-            Todos los reactores
+            Todos los inventarios
 
             .. code-block:: python
 
                 [
                     {
                       'id': '662d0d325363bbc93a0c027c',
-                      'nombre_reactor': 'SUR Hannover',
+                      'nombre_inventario': 'SUR Hannover',
                       'pais': 'Germany',
                       'ciudad': 'Hannover',
                       'tipo': 'HOMOG (S)',
@@ -69,7 +69,7 @@ class InventarioRepository(ABC):
                     },
                     {
                       'id': '662d0d325363bbc93a0c027f',
-                      'nombre_reactor': 'SUR Munich',
+                      'nombre_inventario': 'SUR Munich',
                       'pais': 'Germany',
                       'ciudad': 'Munich',
                       'tipo': 'HOMOG (S)',
@@ -80,24 +80,24 @@ class InventarioRepository(ABC):
                 ]
 
         """
-        reactores = self._session.reactores.find({})
-        respuesta = list(reactores)
+        inventarios = self._session.inventarios.find({})
+        respuesta = list(inventarios)
         return respuesta
 
     def add(self, record: InventarioModel) -> dict:
-        """Crea un nuevo registro en la coreccion de reactores
+        """Crea un nuevo registro en la coreccion de inventarios
 
         Args:
-            record (InventarioModel): informacion del reactor a agregar a la colleccion
+            record (InventarioModel): informacion del inventario a agregar a la colleccion
 
         Returns:
-            Informacion del reactor agregado
+            Informacion del inventario agregado
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_inventario': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -108,30 +108,30 @@ class InventarioRepository(ABC):
 
         """
 
-        nuevo_reactor = self._session.reactores.insert_one(
+        nuevo_inventario = self._session.inventarios.insert_one(
             record.model_dump(by_alias=True, exclude=["id"])
         )
-        reactor_creado = self._session.reactores.find_one(
-            {"_id": nuevo_reactor.inserted_id}
+        inventario_creado = self._session.inventarios.find_one(
+            {"_id": nuevo_inventario.inserted_id}
         )
 
-        return reactor_creado
+        return inventario_creado
 
     def update(self, identificador: str, record: InventarioModel) -> dict:
-        """Actualiza informacion de un reactor segun su identificador.
+        """Actualiza informacion de un inventario segun su identificador.
 
         Args:
-            identificador (str): Identificador del reactor a actualizar informacion.
+            identificador (str): Identificador del inventario a actualizar informacion.
             record (InventarioModel): Informacion que se actualizara del registro.
 
         Returns:
-            Informacion del reactor actualizado
+            Informacion del inventario actualizado
 
             .. code-block:: python
 
                 {
                     'id': '662d0d325363bbc93a0c027c',
-                    'nombre_reactor': 'SUR Hannover',
+                    'nombre_inventario': 'SUR Hannover',
                     'pais': 'Germany',
                     'ciudad': 'Hannover',
                     'tipo': 'HOMOG (S)',
@@ -141,31 +141,31 @@ class InventarioRepository(ABC):
                 }
 
         """
-        reactor = {
+        inventario = {
             clave: valor
             for clave, valor in record.model_dump(by_alias=True).items()
             if valor is not None
         }
 
-        if len(reactor) >= 1:
-            reactor_actualizado = self._session.reactores.find_one_and_update(
+        if len(inventario) >= 1:
+            inventario_actualizado = self._session.inventarios.find_one_and_update(
                 {"_id": ObjectId(identificador)},
-                {"$set": reactor},
+                {"$set": inventario},
                 return_document=ReturnDocument.AFTER,
             )
 
-        return reactor_actualizado
+        return inventario_actualizado
 
     def delete(self, identificador: str):
-        """Elimina un reactor segun su identificador en la coleccion de reactores.
+        """Elimina un inventario segun su identificador en la coleccion de inventarios.
 
         Args:
-            identificador (str): Identificador del reactor a actualizar informacion.
+            identificador (str): Identificador del inventario a actualizar informacion.
 
         Returns:
             Elementos eliminados de la colleccion.
 
         """
-        record = self._session.reactores.delete_one({"_id": ObjectId(identificador)})
+        record = self._session.inventarios.delete_one({"_id": ObjectId(identificador)})
 
         return record
