@@ -20,13 +20,13 @@ class UsuarioModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    nombre_completo: str | int = None
+    nombre_completo: str = None
     """Contiene la información generada por los endpoints."""
 
-    email: str | int = None
+    email: str = None
     """Contiene la información generada por los endpoints."""
 
-    password: str | int = None
+    password: str = None
     """Contiene la información generada por los endpoints."""
 
     pais: str = None
@@ -53,6 +53,7 @@ class UsuarioModel(BaseModel):
                 "nombre_completo": "Emanuel Acevedo",
                 "email": "emanuelacag@gmail.com",
                 "pais": "Colombia",
+                "password": "Ytpgs9m2!",
                 "ciudad": "Medellín",
                 "tipo": "cliente",
                 "fecha_creacion": "1966-04-28T00:00:00",
