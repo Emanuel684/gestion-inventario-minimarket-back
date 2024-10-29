@@ -23,6 +23,9 @@ class ProductoModel(BaseModel):
     nombre: str | int = None
     """Contiene la información generada por los endpoints."""
 
+    imagen: str | int = None
+    """Contiene la información generada por los endpoints."""
+
     tipo: Optional[str] = None
     """Contiene la información generada por los endpoints."""
 
@@ -45,6 +48,7 @@ class ProductoModel(BaseModel):
             "example": {
                 "id": "662d0d325363bbc93a0c0295",
                 "nombre": "Leche",
+                "imagen": "https://seeklogo.com/images/M/mini-market-logo-BF4A1CB5E0-seeklogo.com.png",
                 "tipo": "Lacteo",
                 "sub_tipo": "Leche",
                 "precio": "5500",
