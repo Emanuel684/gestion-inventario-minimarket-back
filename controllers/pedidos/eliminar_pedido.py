@@ -38,7 +38,7 @@ def eliminar_pedido(response: Response, identificador: str):
 
         data = "Pedido no eliminado correctamente"
         with PedidoService(cursor=cursor) as pedidos_service:
-            delete_result = pedidos_service.inventarios_repository.delete(identificador)
+            delete_result = pedidos_service.pedidos_repository.delete(identificador)
 
         if delete_result.deleted_count != 1:
             raise HTTPException(status_code=404, detail=f"Student {id} not found")

@@ -59,7 +59,7 @@ def crear_pedido(response: Response, pedido: PedidoModel):
 
         data = {}
         with PedidoService(cursor=cursor) as pedido_service:
-            data = pedido_service.inventarios_repository.add(pedido)
+            data = pedido_service.pedidos_repository.add(pedido)
 
         message = "Se obtuvo el resultado exitosamente."
         success = True

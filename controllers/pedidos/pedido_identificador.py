@@ -60,7 +60,7 @@ def pedido_identificador(response: Response, identificador: str):
         cursor = crear_cursor_mongo(conexion)
 
         with PedidoService(cursor=cursor) as pedido_service:
-            data = pedido_service.inventarios_repository.get_by_id(identificador)
+            data = pedido_service.pedidos_repository.get_by_id(identificador)
             if data is None:
                 data = PedidoModel()
         message = "Se obtuvo el resultado exitosamente."

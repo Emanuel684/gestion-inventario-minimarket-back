@@ -20,7 +20,7 @@ class PedidoModel(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     """Contiene la información generada por los endpoints."""
 
-    id_tienda: str | int = None
+    id_tienda: str = None
     """Contiene la información generada por los endpoints."""
 
     id_cliente: str = None
@@ -32,7 +32,7 @@ class PedidoModel(BaseModel):
     precio_total: str = None
     """Contiene la información generada por los endpoints."""
 
-    direccion: int | float = None
+    direccion: str = None
     """Contiene la información generada por los endpoints."""
 
     fecha_entrega: str = None
@@ -52,8 +52,8 @@ class PedidoModel(BaseModel):
                 "id": "662d0d325363bbc93a0c0295",
                 "id_tienda": "662d0d325363bbc93a0c0295",
                 "id_cliente": "662d0d325363bbc93a0c0295",
-                "productos": ["662d0d325363bbc93a0c0295", "662d0d325363bbc93a0c0295"],
-                "precio_total": 700,
+                "productos": "662d0d325363bbc93a0c0295,662d0d325363bbc93a0c0295",
+                "precio_total": "700",
                 "direccion": "UNDER DECOMMISSIONING",
                 "fecha_entrega": "1966-04-28T00:00:00",
                 "fecha_creacion": "1966-04-28T00:00:00",

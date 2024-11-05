@@ -55,7 +55,7 @@ def pedido_pedido(response: Response, identificador: str, pedido: UpdatePedidoMo
         cursor = crear_cursor_mongo(conexion)
 
         with PedidoService(cursor=cursor) as pedido_service:
-            data = pedido_service.inventarios_repository.get_by_id(identificador)
+            data = pedido_service.pedidos_repository.get_by_id(identificador)
             if data is not None:
                 data = pedido_service.inventarios_repository.update(
                     identificador, pedido

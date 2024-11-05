@@ -68,7 +68,7 @@ def pedidos_registrados(response: Response):
         conexion = crear_mongo_conexion()
         cursor = crear_cursor_mongo(conexion)
         with PedidoService(cursor=cursor) as pedido_service:
-            data = pedido_service.inventarios_repository.get_list()
+            data = pedido_service.pedidos_repository.get_list()
         message = "Se obtuvo el resultado exitosamente."
         success = True
     except Exception:
