@@ -15,7 +15,7 @@ pedidos_registrados_controller = APIRouter(prefix="/pedidos", tags=["pedidos"])
 
 
 @pedidos_registrados_controller.get(
-    "/pedidoes-registrados",
+    "/pedidos-registrados",
     status_code=200,
     response_model=PedidosCollection,
     response_model_by_alias=False,
