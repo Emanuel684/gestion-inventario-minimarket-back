@@ -5,6 +5,8 @@
 from abc import ABC
 
 from bson import ObjectId
+from imagekitio import ImageKit
+from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 from pymongo import ReturnDocument
 from sqlmodel import Session
 
@@ -107,6 +109,21 @@ class ProductoRepository(ABC):
                 }
 
         """
+
+        imagekit = ImageKit(
+            private_key="private_rx/LSSWw6iX7a/35hmJExP4MTV0=",
+            public_key="public_pTzd+3tTVcO0ESBlro7/iSCGy1k=",
+            url_endpoint="https://ik.imagekit.io/muk5lqji5",
+        )
+
+        upload = imagekit.upload_file(
+            file=record.imagen,
+            file_name=f"{record.imagen[0:10]}.png",
+        )
+
+        print("raw", upload.response_metadata.raw)
+        imagen_url = upload.response_metadata.raw.get("url")
+        record.imagen = imagen_url
 
         nuevo_producto = self._session.productos.insert_one(
             record.model_dump(by_alias=True, exclude=["id"])

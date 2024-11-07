@@ -9,11 +9,8 @@ from fastapi import APIRouter, Response
 # Own libraries
 from contexts.database import crear_cursor_mongo, crear_mongo_conexion
 from helpers.config import get_log
-from models.productos_model import (
-    ProductoCollection,
-    ProductoModel,
-    UpdateProductoModel,
-)
+from models.productos_model import (ProductoCollection, ProductoModel,
+                                    UpdateProductoModel)
 from services.producto_service import ProductoService
 
 actualizar_producto_controller = APIRouter(prefix="/productos", tags=["productos"])
